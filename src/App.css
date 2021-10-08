@@ -1,10 +1,18 @@
 .App {
-  text-align: center;
+  text-align: left;
 }
+.card-title {
+text-align: center;
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+}
+.card-img {
+  cursor: pointer;
+}
+.card-body {
+ background-color: rgba(210, 105, 30, 0.466);
+}
+.row {
+  margin: auto;
 }
 
 @media (prefers-reduced-motion: no-preference) {

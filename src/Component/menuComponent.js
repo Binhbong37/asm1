@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Card, CardText, CardTitle, CardBody, CardImg, CardImgOverlay } from "reactstrap";
+import dateFormat from "dateformat";
 
 class Menu extends Component {
 
@@ -20,12 +21,14 @@ class Menu extends Component {
         if(staff != null) {
             return (
                 <Card>
-                    <CardTitle>
-                        <CardText>{staff.name}</CardText>
-                    </CardTitle>
                     <CardBody>
-                        <CardText>Ngày sinh: {staff.doB}</CardText>
-                        <CardText>Ngày vào công ty: {staff.startDate}</CardText>
+                        <CardText><strong>Họ và tên: {staff.name}</strong></CardText>
+                        <CardText><strong>Ngày sinh:</strong> {dateFormat(staff.doB, "dd/mm/yyyy")}</CardText>
+                        <CardText><strong>Thang lương:</strong> {staff.salaryScale}</CardText>
+                        <CardText><strong>Ngày vào công ty:</strong> {dateFormat(staff.startDate, "dd/mm/yyyy")}</CardText>
+                        <CardText><strong>Phòng ban:</strong> {staff.department.name}</CardText>
+                        <CardText><strong>Số ngày nghỉ còn lại:</strong> {staff.annualLeave} ngày</CardText>
+                        <CardText><strong>Số ngày đã làm thêm:</strong> {staff.overTime} ngày</CardText>
                     </CardBody>
                 </Card>
             )
@@ -34,25 +37,28 @@ class Menu extends Component {
         }
     }
     render() {
-        const menu = this.props.staffs.map((staff) => {
+        const menuStaff = this.props.staffs.map((staff) => {
             return (
-                <div className="col-3 mt-5">
+                <div className="col-12 col-md-5 col-lg-4">
                     <Card key={staff.id} onClick={() => this.onStaffSelect(staff)}>
                         <CardImg src={staff.image} alt = {staff.name}/>
+                        <CardTitle heading>{staff.name}</CardTitle>
+                        <CardTitle>Bộ phận: {staff.department.name}</CardTitle>
                     </Card>
-                    <CardTitle heading>{staff.name}</CardTitle>
                     
                 </div>
             )
         });
+        
 
         return (
             <div className="container">
                 <div className="row">
-                        {menu}
+                        {menuStaff}
                 </div>
-                <div className="col-12 mt-5">
+                <div className="col-12 col-md-5 col-lg-4">
                     {this.renderStaff(this.state.selectedStaff)}
+
                 </div>
             </div>
         )
