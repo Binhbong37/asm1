@@ -1,3 +1,6 @@
+import React, { Component } from "react";
+import { Card, CardText, CardTitle, CardBody, CardImg, CardImgOverlay } from "reactstrap";
+
 export const DEPARTMENTS =
     [
         {
@@ -30,6 +33,7 @@ export const ROLE = {
     NORMAL_STAFF: "Nhân viên",
     MANAGER_STAFF: "Quản lý"
 }
+
 export const STAFFS =
     [
         {
