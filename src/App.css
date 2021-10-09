@@ -9,7 +9,7 @@ text-align: center;
   cursor: pointer;
 }
 .card-body {
- background-color: rgba(210, 105, 30, 0.466);
+ background-color: rgba(30, 174, 210, 0.466);
 }
 .row {
   margin: auto;
