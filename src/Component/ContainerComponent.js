@@ -28,16 +28,16 @@ class Main extends Component {
            <Header/>
            <div  style={{flex:1}}>
            <Switch>
-              <Route exact path='/nhanvien' component={() => <Menu staffs={this.state.staffs}/>}/>
-              <Route path="/nhanvien/:id"
+              <Route exact path='/nhan-vien' component={() => <Menu staffs={this.state.staffs}/>}/>
+              <Route path="/nhan-vien/:id"
               component={({match}) => <RenderStaff staff={this.state.staffs.filter((staff) => staff.id === parseInt(match.params.id, 10)) [0]}/>}/>
-              <Route path="/phongban">
+              <Route path="/phong-ban">
                 <Department />
               </Route>
-              <Route path="/bangluong">
+              <Route path="/bang-luong">
                 <Salary staffs={this.state.staffs}/>
               </Route>
-              <Redirect to="/nhanvien" />
+              <Redirect to="/nhan-vien" />
            </Switch>
            </div>
           <Footer/>
