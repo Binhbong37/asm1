@@ -2,15 +2,13 @@
   text-align: left;
 }
 .card-title {
-text-align: center;
+text-align: left;
 
 }
 .card-img {
   cursor: pointer;
 }
-.card-body {
- background-color: rgba(30, 174, 210, 0.466);
-}
+
 .row {
   margin: auto;
 }

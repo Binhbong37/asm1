@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, CardText, CardTitle, CardBody, CardImg, CardImgOverlay } from "reactstrap";
+import { Jumbotron } from 'reactstrap';
 import dateFormat from "dateformat";
 
     
@@ -18,13 +19,24 @@ import dateFormat from "dateformat";
         });
 
         return (
-            <div className="container">
-                <div className="row">
-                    {menuStaff}
+            <>
+                <Jumbotron>
+                <div className="container">
+                    <div className="row row-header">
+                        <div className="col-12 col-sm-6">
+                            <h1>Nhân viên</h1>
+                        </div>
+                    </div>
                 </div>
-                <div className="row">
+                </Jumbotron>
+                <div className="container">
+                    <div className="row">
+                        {menuStaff}
+                    </div>
+                    <div className="row">
+                    </div>
                 </div>
-            </div>
+            </>
         )
     }
 

@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Card, Form, Navbar, NavbarBrand } from 'reactstrap';
 import Menu from './menuComponent';
-import Home from './Homecomponent';
+import RenderStaff from './Staffdetail';
+import Department from './DepartmenComponen';
+import Salary from './SalaryComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
-import {DEPARTMENTS} from '../staff/staffs';
 import {ROLE} from '../staff/staffs';
 import {STAFFS} from '../staff/staffs';
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+
 
 
 class Main extends Component {
@@ -15,30 +16,29 @@ class Main extends Component {
     super(props)
     this.state = {
       staffs: STAFFS,
-      department: DEPARTMENTS,
       role: ROLE,
       selectedStaff: null
     }
   }
-  onStaffSelect(staff) {
-      this.setState({
-          selectedStaff: staff
-      });
 
-  }
   render() {
-    const Homepage = () => {
-      return(
-        <Home/>
-      )
-    }
+   
     return (
       <div>
            <Header/>
            <Switch>
-             <Route path="/home" component={Homepage} />
-            <Route exact path='/nhanvien' component={() => <Menu staffs={this.state.staffs}/>}/>
-            <Redirect to="/nhanvien" />
+              <Route exact path='/nhanvien' component={() => <Menu staffs={this.state.staffs}/>}/>
+              <Route path="/nhanvien/:id"
+              component={({match}) => <RenderStaff staff={this.state.staffs.filter((staff) => staff.id === parseInt(match.params.id, 10)) [0]}/>}/>
+                
+              
+              <Route path="/phongban">
+                <Department />
+              </Route>
+              <Route path="/bangluong">
+                <Salary staffs={this.state.staffs}/>
+              </Route>
+              <Redirect to="/nhanvien" />
            </Switch>
           <Footer/>
       </div>
@@ -46,4 +46,4 @@ class Main extends Component {
   }
   }
 
-export default Main;
+export default withRouter(Main);
