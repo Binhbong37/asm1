@@ -1,6 +1,11 @@
 .App {
   text-align: left;
 }
+a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
 .card-title {
 text-align: left;
 

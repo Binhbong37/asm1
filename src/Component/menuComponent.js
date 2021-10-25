@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardText, CardTitle, CardBody, CardImg, CardImgOverlay } from "reactstrap";
 import { Jumbotron } from 'reactstrap';
-import dateFormat from "dateformat";
+import { Link } from "react-router-dom";
 
     
     const Menu = (props) => {
@@ -10,8 +10,10 @@ import dateFormat from "dateformat";
             return (
                 <div className="col-6 col-md-4 col-lg-2" key={staff.id}>
                     <Card>
-                        <CardImg src={staff.image} alt = {staff.name}/>
-                        <CardTitle heading>{staff.name}</CardTitle>
+                        <Link to = {`/nhanvien/${staff.id}`}>
+                            <CardImg src={staff.image} alt = {staff.name}/>
+                            <CardTitle style={{textAlign:"center", textDecoration:"none"}}>{staff.name}</CardTitle>
+                        </Link>
                     </Card>
                     
                 </div>

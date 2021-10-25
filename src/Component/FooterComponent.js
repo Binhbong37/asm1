@@ -1,17 +1,17 @@
 import React from 'react';
+import { Link } from "react-router-dom"
 
 function Footer(props) {
     return(
-    <div className="footer">
+    <div className="footer" style={{minWidth: "100%"}}>
         <div className="container">
             <div className="row justify-content-center">             
                 <div className="col-4 offset-1 col-sm-2">
-                    <h5>Links</h5>
+                    <h4>Các trang</h4>
                     <ul className="list-unstyled">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Menu</a></li>
-                        <li><a href="contactus.html">Contact</a></li>
+                        <li><Link to="/">Home</Link></li>
+                        <li><Link to="/phongban">Phòng ban</Link></li>
+                        <li><Link to="/bangluong">Bảng lương</Link></li>
                     </ul>
                 </div>
                 <div className="col-7 col-sm-5">

@@ -24,14 +24,13 @@ class Main extends Component {
   render() {
    
     return (
-      <div>
+      <div style={{display:"flex", flexDirection:"column", minHeight:"100vh"}}>
            <Header/>
+           <div  style={{flex:1}}>
            <Switch>
               <Route exact path='/nhanvien' component={() => <Menu staffs={this.state.staffs}/>}/>
               <Route path="/nhanvien/:id"
               component={({match}) => <RenderStaff staff={this.state.staffs.filter((staff) => staff.id === parseInt(match.params.id, 10)) [0]}/>}/>
-                
-              
               <Route path="/phongban">
                 <Department />
               </Route>
@@ -40,6 +39,7 @@ class Main extends Component {
               </Route>
               <Redirect to="/nhanvien" />
            </Switch>
+           </div>
           <Footer/>
       </div>
     );
