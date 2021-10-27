@@ -20,25 +20,32 @@ class Main extends Component {
       selectedStaff: null
     }
   }
-
+// EVENT ADD Employee
+onClickAdd = (data) => {
+  const { staffs } = this.state;
+  staffs.push(data)
+  this.setState({
+    staffs: staffs
+  })
+  console.log(data)
+}
   render() {
-   
     return (
       <div style={{display:"flex", flexDirection:"column", minHeight:"100vh"}}>
            <Header/>
-           <div  style={{flex:1}}>
-           <Switch>
-              <Route exact path='/nhan-vien' component={() => <Menu staffs={this.state.staffs}/>}/>
-              <Route path="/nhan-vien/:id"
-              component={({match}) => <RenderStaff staff={this.state.staffs.filter((staff) => staff.id === parseInt(match.params.id, 10)) [0]}/>}/>
-              <Route path="/phong-ban">
-                <Department />
-              </Route>
-              <Route path="/bang-luong">
-                <Salary staffs={this.state.staffs}/>
-              </Route>
-              <Redirect to="/nhan-vien" />
-           </Switch>
+           <div style={{flex:1}}>
+            <Switch>
+                <Route exact path='/nhan-vien' component={() => <Menu onClickAdd={this.onClickAdd} staffs={this.state.staffs}/>} />
+                <Route path="/nhan-vien/:id"
+                component={({match}) => <RenderStaff staff={this.state.staffs.filter((staff) => staff.id === parseInt(match.params.id, 10)) [0]}/>}/>
+                <Route path="/phong-ban">
+                  <Department />
+                </Route>
+                <Route path="/bang-luong">
+                  <Salary staffs={this.state.staffs}/>
+                </Route>
+                <Redirect to="/nhan-vien" />
+            </Switch>
            </div>
           <Footer/>
       </div>

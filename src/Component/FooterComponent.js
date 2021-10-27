@@ -10,8 +10,8 @@ function Footer(props) {
                     <h4>Các trang</h4>
                     <ul className="list-unstyled">
                         <li><Link to="/">Home</Link></li>
-                        <li><Link to="/phongban">Phòng ban</Link></li>
-                        <li><Link to="/bangluong">Bảng lương</Link></li>
+                        <li><Link to="/phong-ban">Phòng ban</Link></li>
+                        <li><Link to="/bang-luong">Bảng lương</Link></li>
                     </ul>
                 </div>
                 <div className="col-7 col-sm-5">
