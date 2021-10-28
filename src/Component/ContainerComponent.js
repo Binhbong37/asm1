@@ -27,7 +27,6 @@ onClickAdd = (data) => {
   this.setState({
     staffs: staffs
   })
-  console.log(data)
 }
   render() {
     return (

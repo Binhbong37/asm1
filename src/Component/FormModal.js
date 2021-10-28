@@ -16,7 +16,7 @@ class FormModal extends Component {
                 doB: '',
                 salaryScale: 1,
                 startDate: '',
-                department: "DEPARTMENTS[1]",
+                department: "",
                 annualLeave: 0,
                 overTime: 0,
                 salary: 1,
@@ -49,7 +49,6 @@ class FormModal extends Component {
       //   Nut BUTTON để THÊM nhân viên
 
       handleLogin = (e) => {
-          console.log(this.state)
         e.preventDefault();
         this.toggleModal();
         this.props.onClickAdd(this.state)
@@ -107,11 +106,11 @@ class FormModal extends Component {
                             <Row className="form-group">
                                 <Label htmlFor="checkin1">Phòng ban</Label>
                                 <Input type="select" name="department" id="checkin1" value={department} onChange={this.onChangValue}>
-                                    <option value={1}>Sale</option>
-                                    <option value={2}>HR</option>
-                                    <option value={3}>Marketing</option>
-                                    <option value={4}>IT</option>
-                                    <option value={5}>Financial</option>
+                                    <option>Sale</option>
+                                    <option>HR</option>
+                                    <option>Marketing</option>
+                                    <option>IT</option>
+                                    <option>Financial</option>
                                 </Input>
                             </Row>
                             <Row className="form-group">

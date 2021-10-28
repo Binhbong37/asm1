@@ -26,7 +26,7 @@ function RenderStaff(props) {
                                 <CardText><strong>Ngày sinh:</strong> {dateFormat(staff.doB, "dd/mm/yyyy")}</CardText>
                                 <CardText><strong>Thang lương:</strong> {staff.salaryScale}</CardText>
                                 <CardText><strong>Ngày vào công ty:</strong> {dateFormat(staff.startDate, "dd/mm/yyyy")}</CardText>
-                                <CardText><strong>Phòng ban:</strong> {staff.department.name}</CardText>
+                                <CardText><strong>Phòng ban:</strong> {staff.department.name ? staff.department.name : staff.department}</CardText>
                                 <CardText><strong>Số ngày nghỉ còn lại:</strong> {staff.annualLeave} ngày</CardText>
                                 <CardText><strong>Số ngày đã làm thêm:</strong> {staff.overTime} ngày</CardText>
                             </CardBody>

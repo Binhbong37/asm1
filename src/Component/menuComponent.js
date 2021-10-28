@@ -11,7 +11,8 @@ import FormModal from "./FormModal";
             super(props)
 
             this.state = {
-                keyword: '',
+                staff: this.props.staffs,
+                keyword: ''
             }
 
         }
@@ -23,18 +24,23 @@ import FormModal from "./FormModal";
        
         staffSearch = (searchStaff) => {
             this.setState({
-                keyword: searchStaff
+                keyword: searchStaff.toLowerCase()
             })
         }
         render() {
             
-            const renderStaffs = this.props.staffs;
+            let { staff, keyword } = this.state;
+            let staffs = []
+            if(keyword.length > 0) {
+               staffs= staff.filter((item) => {
+                  return  item.name.toLowerCase().indexOf(keyword) !== -1 })
+                    
+                
+            } else { staffs = staff }
             
-            const { keyword } = this.state;
-            
-            let menuStaff = '';
-                    menuStaff=renderStaffs.map((staff) => {
-                        // console.log(staff)
+           
+
+                  let menuStaff = staffs.map((staff) => {
                         return(
                             <div className="col-6 col-md-4 col-lg-2" key={staff.id}>
                         <Card>
@@ -47,10 +53,7 @@ import FormModal from "./FormModal";
                     </div>
                         )
                     })
-                    
-            
-            
-
+                   
             return (
                 <>
                     <Jumbotron>
