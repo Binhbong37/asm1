@@ -17,8 +17,10 @@ text-align: left;
 .row {
   margin: auto;
 }
-.modal-open {
-  padding: 0;
+label {
+  font-weight: bold;
+  padding: 5px;
+  font-size: 17px;
 }
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

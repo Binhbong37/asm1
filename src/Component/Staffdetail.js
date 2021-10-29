@@ -10,10 +10,12 @@ function RenderStaff(props) {
         return (
             <>
                 <div className="container">
-                    <Breadcrumb>
+                    
+                    <Breadcrumb style={{marginTop: "5px"}}>
                             <BreadcrumbItem><Link to ="/nhan-vien">Nhân viên</Link></BreadcrumbItem>
                             <BreadcrumbItem active>{staff.name}</BreadcrumbItem>
                     </Breadcrumb>
+                    
                 </div>
                 <div className="container">
                     <div className="row">

@@ -25,6 +25,7 @@ function Salary (props) {
                                 <p>Mã nhân viên: {sla.id}</p>
                                 <p>Hệ số lương: {sla.annualLeave}</p>
                                 <p>Số giờ làm thêm: {sla.overTime}</p>
+                                <b style={{backgroundColor:"#f7f7f7", padding:"7px"}}>Lương: {100000*parseInt(sla.overTime, 10)}</b>
                             </div>
                         )
                     })}

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { NavItem, Nav, Button, Modal, ModalHeader, ModalBody, Label, Row, FormGroup, Input, FormFeedback} from 'reactstrap';
+import { NavItem, Nav, Button, Modal, ModalHeader, ModalBody, Label, Row, FormGroup, Input} from 'reactstrap';
 
-const required = (val) => val && val.length;
-const maxLength = (len) => (val) => !(val) || (val.length <= len);
-const minLength = (len) => (val) => val && (val.length >= len);
+
 
 class FormModal extends Component {
     constructor(props) {
@@ -14,22 +12,18 @@ class FormModal extends Component {
                 id: 0,
                 name: '',
                 doB: '',
-                salaryScale: 1,
+                salaryScale: '',
                 startDate: '',
-                department: "",
+                department: "Sale",
                 annualLeave: 0,
                 overTime: 0,
                 salary: 1,
                 image: '/assets/images/alberto.png',
-                touched: {
-                    name: false,
-                    startDate: false
-                },
-                
+                errors: {},
 
             isModalOpen: false
         }
-
+        
     }
     toggleModal = () => {
         this.setState({
@@ -47,65 +41,90 @@ class FormModal extends Component {
        })
     }
       //   Nut BUTTON để THÊM nhân viên
-
+      
       handleLogin = (e) => {
         e.preventDefault();
         this.toggleModal();
-        this.props.onClickAdd(this.state)
+        let errors = this.validate();
+        if(this.isValid (errors)) {
+        this.props.onClickAdd(this.state) 
+    } else {
+        let s1 = {...this.state};
+        s1.errors = errors;
+        this.setState(s1)
     }
-
+        
+    }
     // EVENT VALIDATE FORM
-        handleBlur = (filed) => (evt) => {
-            this.setState({
-                touched: {...this.state.touched, [filed]: true}
-            })
-        };
-        validate(name, startDate) {
-            let take = this.state.touched;
-            const errors = {
-                name: '',
-                startDate: ''
-            };
-            if(take.name && name.length <3) {
-                errors.name = "Cần tối thiểu 2 ký tự cho tên"
-            } else if (take.name && name.length > 15) {
-                 errors.name = "NGắn thôi tên gì dài quá 15 ký tự nhé"
-            }
+    isValid = (errors) => {
+        let keys = Object.keys(errors);
+        let count = keys.reduce((acc, curr) => errors[curr] ? acc + 1 : acc,0);
+        return count === 0;
+    }
+    validate = () => {
+        let { name, doB, startDate} = this.state;
+        let errors = {};
+        errors.name = this.validateName(name)
+        if(!name) {
+            errors.name ="Không để trống ô này"
         }
+        if(!doB) {errors.doB ="Không để trống ô này"}
+        if(!startDate) {errors.startDate ="Không để trống ô này"}
+        return errors;
+    }
+    // ĐIỀU KIỆN ĐỂ CHO Ô NHẬP TÊN
+    validateName = (name) => 
+        !name 
+        ? "Không để trống ô này" 
+        : name.length < 3 
+        ? "Phải lớn hơn 2 ký tự"
+        : name.length > 20 
+        ? "Nhỏ hơn 20 ký tự" 
+        :""
+    
+    
+
+
+
     render() {
-        const { name, doB, salaryScale, startDate, department, annualLeave, overTime} = this.state
-        const errors = this.validate(this.state.name)
+        const { name, doB, salaryScale, startDate, department, annualLeave, overTime,errors} = this.state;
+      
+        
         return (
             <React.Fragment>
                 <Nav className="m-auto" navbar>
                     <NavItem>
-                        <Button onClick={() => this.toggleModal()}>
+                        <Button onClick={ this.toggleModal} style={{marginTop:"10px"}}>
                             <span className="fa fa-plus fa-lg"></span> Thêm nhân viên
                         </Button>
                     </NavItem>
                 </Nav>
-                <Modal isOpen={this.state.isModalOpen} toggle={() => this.toggleModal()}>
+                <Modal style={{paddingRight:0}} isOpen={this.state.isModalOpen} toggle={() => this.toggleModal()}>
                     <ModalHeader>Thêm nhân viên</ModalHeader>
                     <ModalBody>
                         <FormGroup>
                             <Row className="form-group">
-                                <Label htmlFor="username">Tên</Label>
-                                <Input type="text" id="username" name="name" placeholder="Thêm tên"
+                                <Label htmlFor="name">Tên</Label>
+                                <Input type="text" id="name" name="name" placeholder="Thêm tên"
                                 value={name} onChange={this.onChangValue}
                                 />
+                               {errors.name ? <span className="text-danger">{errors.name}</span> : ""}
                             </Row>
                             <Row className="form-group">
                                 <Label htmlFor="birthday">Ngày sinh</Label>
                                 <Input type="date" id="birthday" name="doB" value={doB} onChange={this.onChangValue}
                                 />
+                                {errors.doB ? <span className="text-danger">{errors.doB}</span> : ""}
                             </Row>
                             <Row className="form-group">
                                 <Label htmlFor="checkin">Ngày vào công ty</Label>
                                 <Input type="date" name="startDate" id="checkin" value={startDate} onChange={this.onChangValue}/>
+                                {errors.startDate ? <span className="text-danger">{errors.startDate}</span> : ""}
                             </Row>
                             <Row className="form-group">
                                 <Label htmlFor="checkin1">Phòng ban</Label>
                                 <Input type="select" name="department" id="checkin1" value={department} onChange={this.onChangValue}>
+
                                     <option>Sale</option>
                                     <option>HR</option>
                                     <option>Marketing</option>
@@ -115,8 +134,11 @@ class FormModal extends Component {
                             </Row>
                             <Row className="form-group">
                                 <Label htmlFor="checkin2">Hệ số lương</Label>
-                                <Input type="number" name="salaryScale" id="checkin2" value={salaryScale} onChange={this.onChangValue}/>
+                                <Input type="number" name="salaryScale" id="checkin2" value={salaryScale}
+                                 onChange={this.onChangValue}
+                                />
                             </Row>
+                            
                             <Row className="form-group">
                                 <Label htmlFor="checkin3">Số ngày nghỉ còn lại</Label>
                                 <Input type="number" name="annualLeave" id="checkin3" value={annualLeave} onChange={this.onChangValue}/>

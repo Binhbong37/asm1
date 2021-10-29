@@ -16,13 +16,15 @@ function Department () {
                     </div>
                 </div>
             </Jumbotron>
-            <div className="container">
+            <div className="container" style={{ marginTop:"25px"}}>
                 <div className="row">
                     {department.map((dep) => {
                         return(
                             <div className="col-6 col-md-4" key={dep.id}>
-                                <h2>{dep.name}</h2>
-                                Số lượng nhân viên: {dep.numberOfStaff}
+                                <div style={{padding:"10px"}}>
+                                    <h2>{dep.name}</h2>
+                                    Số lượng nhân viên: {dep.numberOfStaff}
+                                </div>
                             </div>
                         )
                     })}
