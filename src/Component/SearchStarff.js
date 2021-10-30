@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, FormGroup, Label, Input, Form } from "reactstrap";
+import { Button, FormGroup, Input, Form } from "reactstrap";
 
 class FormSearchStaff extends Component {
     constructor(props) {

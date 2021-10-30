@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { NavItem, Nav, Button, Modal, ModalHeader, ModalBody, Label, Row, FormGroup, Input} from 'reactstrap';
+import { NavItem, Nav, Button, Modal, ModalHeader, ModalBody, Label, Row} from 'reactstrap';
+import { Control, LocalForm, Errors } from "react-redux-form";
 
-
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !(val) || (val.length <= len);
+const minLength = (len) => (val) => (val) && (val.length >= len);
 
 class FormModal extends Component {
     constructor(props) {
@@ -31,64 +34,18 @@ class FormModal extends Component {
         })
     }
   
-    // EVENTS CHANGE VALUE 
-    onChangValue = (e) => {
-        const target = e.target;
-        const value = target.value;
-        const name = target.name
-       this.setState({
-            [name]: value
-       })
-    }
+ 
       //   Nut BUTTON để THÊM nhân viên
       
-      handleLogin = (e) => {
-        e.preventDefault();
+      handleLogin = (values) => {
         this.toggleModal();
-        let errors = this.validate();
-        if(this.isValid (errors)) {
-        this.props.onClickAdd(this.state) 
-    } else {
-        let s1 = {...this.state};
-        s1.errors = errors;
-        this.setState(s1)
-    }
+        const value = {...this.state, ...values}
+        this.props.onClickAdd(value) 
         
     }
-    // EVENT VALIDATE FORM
-    isValid = (errors) => {
-        let keys = Object.keys(errors);
-        let count = keys.reduce((acc, curr) => errors[curr] ? acc + 1 : acc,0);
-        return count === 0;
-    }
-    validate = () => {
-        let { name, doB, startDate} = this.state;
-        let errors = {};
-        errors.name = this.validateName(name)
-        if(!name) {
-            errors.name ="Không để trống ô này"
-        }
-        if(!doB) {errors.doB ="Không để trống ô này"}
-        if(!startDate) {errors.startDate ="Không để trống ô này"}
-        return errors;
-    }
-    // ĐIỀU KIỆN ĐỂ CHO Ô NHẬP TÊN
-    validateName = (name) => 
-        !name 
-        ? "Không để trống ô này" 
-        : name.length < 3 
-        ? "Phải lớn hơn 2 ký tự"
-        : name.length > 20 
-        ? "Nhỏ hơn 20 ký tự" 
-        :""
     
-    
-
-
 
     render() {
-        const { name, doB, salaryScale, startDate, department, annualLeave, overTime,errors} = this.state;
-      
         
         return (
             <React.Fragment>
@@ -99,57 +56,91 @@ class FormModal extends Component {
                         </Button>
                     </NavItem>
                 </Nav>
-                <Modal style={{paddingRight:0}} isOpen={this.state.isModalOpen} toggle={() => this.toggleModal()}>
+                <Modal style={{paddingRight:0}} isOpen={this.state.isModalOpen} toggle={() => this.toggleModal()}
+                 >
                     <ModalHeader>Thêm nhân viên</ModalHeader>
                     <ModalBody>
-                        <FormGroup>
-                            <Row className="form-group">
-                                <Label htmlFor="name">Tên</Label>
-                                <Input type="text" id="name" name="name" placeholder="Thêm tên"
-                                value={name} onChange={this.onChangValue}
-                                />
-                               {errors.name ? <span className="text-danger">{errors.name}</span> : ""}
-                            </Row>
-                            <Row className="form-group">
-                                <Label htmlFor="birthday">Ngày sinh</Label>
-                                <Input type="date" id="birthday" name="doB" value={doB} onChange={this.onChangValue}
-                                />
-                                {errors.doB ? <span className="text-danger">{errors.doB}</span> : ""}
-                            </Row>
-                            <Row className="form-group">
-                                <Label htmlFor="checkin">Ngày vào công ty</Label>
-                                <Input type="date" name="startDate" id="checkin" value={startDate} onChange={this.onChangValue}/>
-                                {errors.startDate ? <span className="text-danger">{errors.startDate}</span> : ""}
-                            </Row>
-                            <Row className="form-group">
-                                <Label htmlFor="checkin1">Phòng ban</Label>
-                                <Input type="select" name="department" id="checkin1" value={department} onChange={this.onChangValue}>
+                        <LocalForm onSubmit={(values) => this.handleLogin(values)}>
+                                <Row className="form-group">
+                                    <Label htmlFor="name">Tên</Label>
+                                    <Control.text model=".name" id="name" name="name" placeholder="Thêm tên"
+                                    className="form-control"
+                                    required
+                                    validators={{
+                                        required,
+                                        maxLength: maxLength(20),
+                                        minLength: minLength(5)
+                                    }}
+                                    />
+                                    <Errors className="text-danger"
+                                    model=".name"
+                                    show="touched"
+                                    messages={{
+                                        maxLength: "Nhỏ hơn 20 ký tự",
+                                        minLength: "Lớn hơn 5 ký tự"
+                                    }}
+                                    />
+                                </Row>
 
-                                    <option>Sale</option>
-                                    <option>HR</option>
-                                    <option>Marketing</option>
-                                    <option>IT</option>
-                                    <option>Financial</option>
-                                </Input>
-                            </Row>
-                            <Row className="form-group">
-                                <Label htmlFor="checkin2">Hệ số lương</Label>
-                                <Input type="number" name="salaryScale" id="checkin2" value={salaryScale}
-                                 onChange={this.onChangValue}
-                                />
-                            </Row>
-                            
-                            <Row className="form-group">
-                                <Label htmlFor="checkin3">Số ngày nghỉ còn lại</Label>
-                                <Input type="number" name="annualLeave" id="checkin3" value={annualLeave} onChange={this.onChangValue}/>
-                            </Row>
-                            <Row className="form-group">
-                                <Label htmlFor="checkin4">Số ngày đã làm thêm</Label>
-                                <Input type="number" name="overTime" id="checkin4" value={overTime} onChange={this.onChangValue} />
-                            </Row>
-                            <Button type='submit' color="primary" style={{marginTop:"10px"}}
-                             onClick={this.handleLogin}>Thêm</Button>
-                        </FormGroup>
+                                 <Row className="form-group">
+                                    <Label htmlFor="birthday">Ngày sinh</Label>
+                                    <Control type="date" model=".doB" id="birthday" name="doB" className="form-control"
+                                    validators={{
+                                        required
+                                    }}
+                                    />
+                                    <Errors className="text-danger"
+                                    model=".doB"
+                                    show="touched"
+                                    messages={{
+                                        required: "Không để trống ô này"
+                                    }}
+                                    />
+                                </Row>
+
+                                <Row className="form-group">
+                                    <Label htmlFor="checkin">Ngày vào công ty</Label>
+                                    <Control type="date" model=".startDate" name="startDate" id="checkin" className="form-control"
+                                    validators={{
+                                        required
+                                    }}/>
+                                    <Errors className="text-danger"
+                                    show="touched"
+                                    model=".startDate"
+                                    messages={{
+                                        required: "Không để trống ô này"
+                                    }}/>
+                                </Row>
+                                
+                                <Row className="form-group">
+                                    <Label htmlFor="checkin1">Phòng ban</Label>
+                                    <Control.select model=".department" name="department" id="checkin1" className="form-control">
+
+                                        <option>Sale</option>
+                                        <option>HR</option>
+                                        <option>Marketing</option>
+                                        <option>IT</option>
+                                        <option>Financial</option>
+                                    </Control.select>
+                                </Row>
+                                
+                                <Row className="form-group">
+                                    <Label htmlFor="salaryScale">Hệ số lương</Label>
+                                    <Control type="number" model=".salaryScale" name="salaryScale" id="salaryScale"  className="form-control"
+                                    />
+                                </Row>
+                                
+                                <Row className="form-group">
+                                    <Label htmlFor="annualLeave">Số ngày nghỉ còn lại</Label>
+                                    <Control type="number" model=".annualLeave" name="annualLeave" id="annualLeave"
+                                    className="form-control"/>
+                                </Row>
+                                <Row className="form-group">
+                                    <Label htmlFor="overTime">Số ngày đã làm thêm</Label>
+                                    <Control type="number" model=".overTime" name="overTime" id="overTime" className="form-control"/>
+                                </Row>
+                                <Button type='submit' color="primary" style={{marginTop:"10px"}}>Thêm</Button>
+                        </LocalForm>
                     </ModalBody>
                 </Modal>
             </React.Fragment>

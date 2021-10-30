@@ -1,5 +1,5 @@
 import React from "react"
-import { Card, CardImg, CardBody, CardText, CardTitle, Breadcrumb, BreadcrumbItem, Jumbotron} from 'reactstrap';
+import { Card, CardImg, CardBody, CardText, CardTitle, Breadcrumb, BreadcrumbItem} from 'reactstrap';
 import dateFormat from "dateformat";
 import { Link } from "react-router-dom";
 
@@ -10,14 +10,10 @@ function RenderStaff(props) {
         return (
             <>
                 <div className="container">
-                    
                     <Breadcrumb style={{marginTop: "5px"}}>
                             <BreadcrumbItem><Link to ="/nhan-vien">Nhân viên</Link></BreadcrumbItem>
                             <BreadcrumbItem active>{staff.name}</BreadcrumbItem>
                     </Breadcrumb>
-                    
-                </div>
-                <div className="container">
                     <div className="row">
                         <Card className ="col-12 col-md-4 col-lg-3">
                             <CardImg height="100%" src={staff.image} alt= {staff.name}/>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, CardText, CardTitle, CardBody, CardImg, CardImgOverlay } from "reactstrap";
+import { Card, CardTitle, CardImg } from "reactstrap";
 import { Jumbotron } from 'reactstrap';
 import { Link } from "react-router-dom";
 import FormSearchStaff from "./SearchStarff";
