@@ -9,13 +9,12 @@ function RenderStaff(props) {
         
         return (
             <>
+            <div className="container">
                 <Breadcrumb>
-                    
-                        <BreadcrumbItem><Link to ="/nhanvien"><h3>Nhân viên</h3></Link></BreadcrumbItem>
-                        <BreadcrumbItem active>{staff.name}</BreadcrumbItem>
-                   
+                    <BreadcrumbItem><Link to ="/nhanvien">Nhân viên</Link></BreadcrumbItem>
+                    <BreadcrumbItem active>{staff.name}</BreadcrumbItem>
                 </Breadcrumb>
-                <div className="container">
+                
                     <div className="row">
                         <Card className ="col-12 col-md-4 col-lg-3">
                             <CardImg height="100%" src={staff.image} alt= {staff.name}/>
