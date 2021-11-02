@@ -4,7 +4,11 @@ import { Jumbotron } from 'reactstrap';
 
 
 function Salary (props) {
-    let salary = props.staffs
+    let salary = props.staffs;
+    const basicSalary = 3000000;
+    const overtimeSalary = 2000000;
+
+    
     return(
         <>
             <Jumbotron>
@@ -19,14 +23,17 @@ function Salary (props) {
             <div className="container">
                 <div className="row">
                     {salary.map((sla) => {
+                        const sumSalary = parseInt(basicSalary*sla.annualLeave) + parseInt(overtimeSalary*sla.overTime)
                         return(
+                            
                             <div className="col-12 col-sm-6 col-md-4" key={sla.id}>
                                 <h2>{sla.name}</h2>
                                 <p>Mã nhân viên: {sla.id}</p>
                                 <p>Hệ số lương: {sla.annualLeave}</p>
                                 <p>Số giờ làm thêm: {sla.overTime}</p>
-                                <b style={{backgroundColor:"#f7f7f7", padding:"7px"}}>Lương: {100000+100000*parseInt(sla.overTime, 10)}</b>
+                                <b style={{backgroundColor:"#f7f7f7", padding:"7px"}}>Lương: {sumSalary}</b>
                             </div>
+                            
                         )
                     })}
                 </div>
