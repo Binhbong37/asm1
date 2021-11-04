@@ -6,9 +6,10 @@ import Salary from './SalaryComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import {ROLE} from '../staff/staffs';
-import {STAFFS} from '../staff/staffs';
+// import {STAFFS} from '../staff/staffs';
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
-import { connect } from "react-redux"
+import { connect } from "react-redux";
+import { fetchStaff } from "../redux/actionCreatator";
 
 
 
@@ -16,18 +17,21 @@ class Main extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      staffs: STAFFS,
+      // staffs: STAFFS,
       role: ROLE,
       selectedStaff: null
     }
   }
 // EVENT ADD Employee
-onClickAdd = (data) => {
-  const { staffs } = this.state;
-  staffs.push(data)
-  this.setState({
-    staffs: staffs
-  })
+// onClickAdd = (data) => {
+//   const { staffs } = this.state;
+//   staffs.push(data)
+//   this.setState({
+//     staffs: staffs
+//   })
+// }
+componentDidMount () {
+  this.props.fetchStaff()
 }
   render() {
     return (
@@ -35,14 +39,16 @@ onClickAdd = (data) => {
            <Header/>
            <div style={{flex:1}}>
             <Switch>
-                <Route exact path='/nhan-vien' component={() => <Menu onClickAdd={this.onClickAdd} staffs={this.state.staffs}/>} />
+                <Route exact path='/nhan-vien' component={() => <Menu onClickAdd={this.onClickAdd} staffs={this.props.staffs.staffs}
+                staffLoading={this.props.staffs.isLoading} staffErrMess={this.props.staffs.isErrMess}/>} />
                 <Route path="/nhan-vien/:id"
-                component={({match}) => <RenderStaff staff={this.state.staffs.filter((staff) => staff.id === parseInt(match.params.id, 10)) [0]}/>}/>
+                component={({match}) => <RenderStaff staff={this.props.staffs.staffs.filter((staff) => staff.id === parseInt(match.params.id, 10))[0]}
+                staffLoading={this.props.staffs.isLoading} staffErrMess={this.props.staffs.isErrMess}/>}/>
                 <Route path="/phong-ban">
                   <Department />
                 </Route>
                 <Route path="/bang-luong">
-                  <Salary staffs={this.state.staffs}/>
+                  <Salary staffs={this.props.staffs.staffs} staffLoading={this.props.staffs.isLoading} staffErrMess={this.props.staffs.isErrMess}/>
                 </Route>
                 <Redirect to="/nhan-vien" />
             </Switch>
@@ -52,7 +58,15 @@ onClickAdd = (data) => {
     );
   }
   }
+  // KẾT NỐI STATE CỦA REDUX VỚI PROPS CỦA REACT
 const mapStateToProps = (state) => {
-  console.log(state)
+  return{
+    staffs: state.staffs
+  }  
 }
-export default withRouter(connect(mapStateToProps)(Main));
+// DISPATCH TỪ REDUX
+const mapDispatchToProps = (dispatch) => ({
+  fetchStaff: () => dispatch(fetchStaff())
+
+})
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

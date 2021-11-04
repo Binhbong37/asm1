@@ -4,6 +4,7 @@ import { Jumbotron } from 'reactstrap';
 import { Link } from "react-router-dom";
 import FormSearchStaff from "./SearchStarff";
 import FormModal from "./FormModal";
+import { Loading } from "./loadingComponent"
 
     
     class Menu extends Component{
@@ -37,17 +38,27 @@ import FormModal from "./FormModal";
             } else { staffs = staff }
             
             let menuStaff = staffs.map((staff) => {
-                return(
-                    <div className="col-6 col-md-4 col-lg-2" key={staff.id}>
-                <Card>
-                    <Link to = {`/nhan-vien/${staff.id}`}>
-                        <CardImg src={staff.image} alt = {staff.name}/>
-                        <CardTitle style={{textAlign:"center", textDecoration:"none"}}>{staff.name}</CardTitle>
-                    </Link>
-                </Card>
-                
-            </div>
-                )
+                if(this.props.staffLoading) {
+                    return(
+                        <Loading/>
+                    )
+                } else if(this.props.staffErrMess) {
+                    return(
+                        <h4>{this.props.staffErrMess}</h4>
+                    )
+                }
+                else {
+                    return(
+                        <div className="col-6 col-md-4 col-lg-2" key={staff.id}>
+                            <Card>
+                                <Link to = {`/nhan-vien/${staff.id}`}>
+                                    <CardImg src={staff.image} alt = {staff.name}/>
+                                    <CardTitle style={{textAlign:"center", textDecoration:"none"}}>{staff.name}</CardTitle>
+                                </Link>
+                            </Card>
+                        </div>
+                    )
+                }
             })
                    
             return (
