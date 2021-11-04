@@ -33,26 +33,22 @@ import FormModal from "./FormModal";
             let staffs = []
             if(keyword.length > 0) {
                staffs= staff.filter((item) => {
-                  return  item.name.toLowerCase().indexOf(keyword) !== -1 })
-                    
-                
+                return  item.name.toLowerCase().indexOf(keyword) !== -1 })
             } else { staffs = staff }
             
-           
-
-                  let menuStaff = staffs.map((staff) => {
-                        return(
-                            <div className="col-6 col-md-4 col-lg-2" key={staff.id}>
-                        <Card>
-                            <Link to = {`/nhan-vien/${staff.id}`}>
-                                <CardImg src={staff.image} alt = {staff.name}/>
-                                <CardTitle style={{textAlign:"center", textDecoration:"none"}}>{staff.name}</CardTitle>
-                            </Link>
-                        </Card>
-                        
-                    </div>
-                        )
-                    })
+            let menuStaff = staffs.map((staff) => {
+                return(
+                    <div className="col-6 col-md-4 col-lg-2" key={staff.id}>
+                <Card>
+                    <Link to = {`/nhan-vien/${staff.id}`}>
+                        <CardImg src={staff.image} alt = {staff.name}/>
+                        <CardTitle style={{textAlign:"center", textDecoration:"none"}}>{staff.name}</CardTitle>
+                    </Link>
+                </Card>
+                
+            </div>
+                )
+            })
                    
             return (
                 <>

@@ -8,6 +8,7 @@ import Footer from './FooterComponent';
 import {ROLE} from '../staff/staffs';
 import {STAFFS} from '../staff/staffs';
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import { connect } from "react-redux"
 
 
 
@@ -51,5 +52,7 @@ onClickAdd = (data) => {
     );
   }
   }
-
-export default withRouter(Main);
+const mapStateToProps = (state) => {
+  console.log(state)
+}
+export default withRouter(connect(mapStateToProps)(Main));
