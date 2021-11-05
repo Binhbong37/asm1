@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Jumbotron } from 'reactstrap';
 // import { DEPARTMENTS } from "../staff/staffs";
 
@@ -24,8 +25,10 @@ function Department (props) {
                         return(
                             <div className="col-6 col-md-4" key={dep.id}>
                                 <div style={{padding:"10px"}}>
-                                    <h2>{dep.name}</h2>
-                                    Số lượng nhân viên: {dep.numberOfStaff}
+                                    <Link to ={`/phong-ban/${dep.id}`}>
+                                        <h2>{dep.name}</h2>
+                                        Số lượng nhân viên: {dep.numberOfStaff}
+                                    </Link>
                                 </div>
                             </div>
                         )

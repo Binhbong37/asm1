@@ -4,6 +4,7 @@ import logger from "redux-logger";
 import { Staffs } from "./staff";
 import { Dept } from "./department"
 import { Salary } from "./salary";
+import { StaffOfDeparts } from "./staffOfDept";
 
 
 export const configureStore = () => {
@@ -11,7 +12,8 @@ export const configureStore = () => {
         combineReducers({
             staffs: Staffs,
             dept: Dept,
-            salary: Salary
+            salary: Salary,
+            staffofdept: StaffOfDeparts
         }),
         applyMiddleware(thunk, logger)
     )

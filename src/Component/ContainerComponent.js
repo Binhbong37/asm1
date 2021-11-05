@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Menu from './menuComponent';
 import RenderStaff from './Staffdetail';
 import Department from './DepartmenComponen';
+import StaffOfDepart from './staffOfDepart';
 import Salary from './SalaryComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
@@ -30,12 +31,20 @@ class Main extends Component {
 //     staffs: staffs
 //   })
 // }
+
+
+
+
 componentDidMount () {
   this.props.fetchStaff()
   this.props.fetchDepartment()
   this.props.fetchSalary()
 }
   render() {
+    // PHẦN STAFFOFDEPT 
+    const DeptID = ({match}) => {
+      return <StaffOfDepart deptID={match.params.id}/>
+    }
     return (
       <div style={{display:"flex", flexDirection:"column", minHeight:"100vh"}}>
            <Header/>
@@ -46,9 +55,10 @@ componentDidMount () {
                 <Route path="/nhan-vien/:id"
                 component={({match}) => <RenderStaff staff={this.props.staffs.staffs.filter((staff) => staff.id === parseInt(match.params.id, 10))[0]}
                 staffLoading={this.props.staffs.isLoading} staffErrMess={this.props.staffs.isErrMess}/>}/>
-                <Route path="/phong-ban">
+                <Route exact path="/phong-ban">
                   <Department department={this.props.department.dept}/>
                 </Route>
+                <Route exact path="/phong-ban/:id" component={DeptID}/>
                 <Route path="/bang-luong">
                   <Salary staffs={this.props.salary.salary} staffLoading={this.props.salary.isLoading} staffErrMess={this.props.salary.isErrMess}/>
                 </Route>
@@ -65,7 +75,7 @@ const mapStateToProps = (state) => {
   return{
     staffs: state.staffs,
     department: state.dept,
-    salary: state.salary
+    salary: state.salary,
   }  
 }
 // DISPATCH TỪ REDUX
