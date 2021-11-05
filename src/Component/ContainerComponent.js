@@ -9,7 +9,7 @@ import {ROLE} from '../staff/staffs';
 // import {STAFFS} from '../staff/staffs';
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchStaff } from "../redux/actionCreatator";
+import { fetchStaff, fetchDepartment } from "../redux/actionCreatator";
 
 
 
@@ -32,6 +32,7 @@ class Main extends Component {
 // }
 componentDidMount () {
   this.props.fetchStaff()
+  this.props.fetchDepartment()
 }
   render() {
     return (
@@ -45,7 +46,7 @@ componentDidMount () {
                 component={({match}) => <RenderStaff staff={this.props.staffs.staffs.filter((staff) => staff.id === parseInt(match.params.id, 10))[0]}
                 staffLoading={this.props.staffs.isLoading} staffErrMess={this.props.staffs.isErrMess}/>}/>
                 <Route path="/phong-ban">
-                  <Department />
+                  <Department department={this.props.department.dept}/>
                 </Route>
                 <Route path="/bang-luong">
                   <Salary staffs={this.props.staffs.staffs} staffLoading={this.props.staffs.isLoading} staffErrMess={this.props.staffs.isErrMess}/>
@@ -61,12 +62,14 @@ componentDidMount () {
   // KẾT NỐI STATE CỦA REDUX VỚI PROPS CỦA REACT
 const mapStateToProps = (state) => {
   return{
-    staffs: state.staffs
+    staffs: state.staffs,
+    department: state.dept
   }  
 }
 // DISPATCH TỪ REDUX
 const mapDispatchToProps = (dispatch) => ({
-  fetchStaff: () => dispatch(fetchStaff())
+  fetchStaff: () => dispatch(fetchStaff()),
+  fetchDepartment: () => dispatch(fetchDepartment())
 
 })
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

@@ -29,38 +29,38 @@ import { Loading } from "./loadingComponent"
             })
         }
         render() {
-            
+            let menuStaff='';
             let { staff, keyword } = this.state;
             let staffs = []
-            if(keyword.length > 0) {
-               staffs= staff.filter((item) => {
-                return  item.name.toLowerCase().indexOf(keyword) !== -1 })
-            } else { staffs = staff }
-            
-            let menuStaff = staffs.map((staff) => {
-                if(this.props.staffLoading) {
-                    return(
+            if(this.props.staffLoading) {
+                return(
+                    <div className="container">
                         <Loading/>
-                    )
-                } else if(this.props.staffErrMess) {
-                    return(
-                        <h4>{this.props.staffErrMess}</h4>
-                    )
-                }
-                else {
-                    return(
-                        <div className="col-6 col-md-4 col-lg-2" key={staff.id}>
-                            <Card>
-                                <Link to = {`/nhan-vien/${staff.id}`}>
-                                    <CardImg src={staff.image} alt = {staff.name}/>
-                                    <CardTitle style={{textAlign:"center", textDecoration:"none"}}>{staff.name}</CardTitle>
-                                </Link>
-                            </Card>
-                        </div>
-                    )
-                }
-            })
-                   
+                    </div>
+                )
+            } else if(this.props.staffErrMess) {
+                return(
+                    <h4>{this.props.staffErrMess}</h4>
+                )
+            }
+            else {
+                if(keyword.length > 0) {
+                   staffs= staff.filter((item) => {
+                    return  item.name.toLowerCase().indexOf(keyword) !== -1 })
+                } else { staffs = staff }
+                 menuStaff = staffs.map((staff) => { 
+                        return(
+                            <div className="col-6 col-md-4 col-lg-2" key={staff.id}>
+                                <Card>
+                                    <Link to = {`/nhan-vien/${staff.id}`}>
+                                        <CardImg src={staff.image} alt = {staff.name}/>
+                                        <CardTitle style={{textAlign:"center", textDecoration:"none"}}>{staff.name}</CardTitle>
+                                    </Link>
+                                </Card>
+                            </div>
+                        )
+                }) 
+            }
             return (
                 <>
                     <Jumbotron>
@@ -81,9 +81,7 @@ import { Loading } from "./loadingComponent"
                     </Jumbotron>
                     <div className="container">
                         <div className="row">
-                        
                             {menuStaff}
-                        
                         </div>
                     </div>
                 </>

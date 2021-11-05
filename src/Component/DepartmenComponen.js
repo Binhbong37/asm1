@@ -1,11 +1,13 @@
 import React from "react";
 import { Jumbotron } from 'reactstrap';
-import { DEPARTMENTS } from "../staff/staffs";
+// import { DEPARTMENTS } from "../staff/staffs";
 
 
-function Department () {
-    let department = DEPARTMENTS;
+
+function Department (props) {
+    let department = props.department
     return(
+        
         <>
             <Jumbotron>
                 <div className="container" >
@@ -33,4 +35,5 @@ function Department () {
         </>
     )
 }
+
 export default Department;
