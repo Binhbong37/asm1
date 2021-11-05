@@ -9,7 +9,7 @@ import {ROLE} from '../staff/staffs';
 // import {STAFFS} from '../staff/staffs';
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchStaff, fetchDepartment } from "../redux/actionCreatator";
+import { fetchStaff, fetchDepartment, fetchSalary } from "../redux/actionCreatator";
 
 
 
@@ -33,6 +33,7 @@ class Main extends Component {
 componentDidMount () {
   this.props.fetchStaff()
   this.props.fetchDepartment()
+  this.props.fetchSalary()
 }
   render() {
     return (
@@ -49,7 +50,7 @@ componentDidMount () {
                   <Department department={this.props.department.dept}/>
                 </Route>
                 <Route path="/bang-luong">
-                  <Salary staffs={this.props.staffs.staffs} staffLoading={this.props.staffs.isLoading} staffErrMess={this.props.staffs.isErrMess}/>
+                  <Salary staffs={this.props.salary.salary} staffLoading={this.props.salary.isLoading} staffErrMess={this.props.salary.isErrMess}/>
                 </Route>
                 <Redirect to="/nhan-vien" />
             </Switch>
@@ -63,13 +64,15 @@ componentDidMount () {
 const mapStateToProps = (state) => {
   return{
     staffs: state.staffs,
-    department: state.dept
+    department: state.dept,
+    salary: state.salary
   }  
 }
 // DISPATCH TỪ REDUX
 const mapDispatchToProps = (dispatch) => ({
   fetchStaff: () => dispatch(fetchStaff()),
-  fetchDepartment: () => dispatch(fetchDepartment())
+  fetchDepartment: () => dispatch(fetchDepartment()),
+  fetchSalary: () => dispatch(fetchSalary())
 
 })
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

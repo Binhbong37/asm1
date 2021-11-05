@@ -52,3 +52,38 @@ export const deptFailed = (error) => ({
     type: ActionTypes.DEPARTMENT_FAILED,
     payload: error 
 })
+
+// ADD SALARY
+export const fetchSalary = () => (dispatch) => {
+    dispatch(salaryLoading(true))
+
+    return fetch("https://rjs101xbackend.herokuapp.com/staffsSalary")
+    .then(response => {
+        if(response.ok) {
+            return response
+        } else {
+            var error = new Error("Errors: "+ response.status + ": " + response.statusText)
+            error.response = response;
+            throw error
+        }
+    }, error => {
+        var errMess = new Error(error.message);
+        throw errMess;
+    })
+    .then(response => response.json())
+    .then(dept => dispatch(addSalary(dept)))
+    .catch(error => dispatch(salaryFailed(error.message)))
+}
+export const addSalary = (salary) => ({
+    type: ActionTypes.ADD_SALARY,
+    payload: salary
+})
+export const salaryLoading = () => ({
+    type: ActionTypes.SALARY_LOADING
+})
+export const salaryFailed = (errMess) => {
+    return{
+        type: ActionTypes.SALARY_FAILED,
+        payload: errMess
+    }
+}
