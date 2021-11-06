@@ -11,19 +11,6 @@ class FormModal extends Component {
         super(props)
 
         this.state = {
-            
-                id: 0,
-                name: '',
-                doB: '',
-                salaryScale: '',
-                startDate: '',
-                department: "Sale",
-                annualLeave: 0,
-                overTime: 0,
-                salary: 1,
-                image: '/assets/images/alberto.png',
-                errors: {},
-
             isModalOpen: false
         }
         
@@ -38,9 +25,22 @@ class FormModal extends Component {
       //   Nut BUTTON để THÊM nhân viên
       
       handleLogin = (values) => {
+        //  giá trị của phòng ban
+        let dept = values.department === "Sale" ? "Dept01" : values.department === "HR" ? "Dept02" : 
+        values.department === "Marketing" ? "Dept03" : values.department === "IT" ? "Dept04" : "Dept05"
+          const newStaff = {
+              name: values.name,
+              doB: values.doB,
+              startDate: values.startDate,
+              department: dept,
+              overTime: values.overTime,
+              salaryScale: values.salaryScale,
+              annualLeave: values.annualLeave,
+              image: "/asset/images/alberto.png"
+          }
+          this.props.addStaff(newStaff)
         this.toggleModal();
-        const value = {...this.state, ...values}
-        this.props.onClickAdd(value) 
+        
         
     }
     

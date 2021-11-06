@@ -4,7 +4,8 @@ import { Jumbotron } from 'reactstrap';
 import { Link } from "react-router-dom";
 import FormSearchStaff from "./SearchStarff";
 import FormModal from "./FormModal";
-import { Loading } from "./loadingComponent"
+import { Loading } from "./loadingComponent";
+import { FadeTransform } from "react-animation-components";
 
     
     class Menu extends Component{
@@ -18,9 +19,9 @@ import { Loading } from "./loadingComponent"
 
         }
         // Lấy data từ FORM MODAL
-        onClickAdd = (data) => {
+        addStaff = (data) => {
             data.id = Math.floor(Math.random() * 1000000)
-            this.props.onClickAdd(data)
+            this.props.addStaff(data)
         }
        
         staffSearch = (searchStaff) => {
@@ -51,13 +52,18 @@ import { Loading } from "./loadingComponent"
                  menuStaff = staffs.map((staff) => { 
                         return(
                             <div className="col-6 col-md-4 col-lg-2" key={staff.id}>
+                                  <FadeTransform in transfomProps={{
+                                exitTransform: "scale(0.5) translateY(-50%)"
+                            }}>
                                 <Card>
                                     <Link to = {`/nhan-vien/${staff.id}`}>
                                         <CardImg src={staff.image} alt = {staff.name}/>
                                         <CardTitle style={{textAlign:"center", textDecoration:"none"}}>{staff.name}</CardTitle>
                                     </Link>
                                 </Card>
+                                </FadeTransform>
                             </div>
+                            
                         )
                 }) 
             }
@@ -70,12 +76,11 @@ import { Loading } from "./loadingComponent"
                                 <h1>Nhân viên</h1>
                             </div>
                             <div className="col-12 col-sm-4">
-                                <FormModal onClickAdd ={this.onClickAdd}/>
+                                <FormModal addStaff ={this.addStaff}/>
                             </div>
                             <div className="col-12 col-sm-4">
                                 <FormSearchStaff OnclickAdd={(searchStaff)=>this.staffSearch(searchStaff)}/>
                             </div>
-                            
                         </div>
                     </div>
                     </Jumbotron>

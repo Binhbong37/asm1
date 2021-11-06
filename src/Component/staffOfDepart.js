@@ -39,7 +39,7 @@ class StaffOfDepart extends Component {
           <Link to={`/nhan-vien/${staff.id}`}>
             <CardImg
               width="100%"
-              src="/assets/images/alberto.png"
+              src="/asset/images/alberto.png"
               alt={staff.name}
             />
             <CardTitle className="text-center">{staff.name}</CardTitle>

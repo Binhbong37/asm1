@@ -10,8 +10,8 @@ import {ROLE} from '../staff/staffs';
 // import {STAFFS} from '../staff/staffs';
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchStaff, fetchDepartment, fetchSalary } from "../redux/actionCreatator";
-
+import { fetchStaff, fetchDepartment, fetchSalary, addStaff } from "../redux/actionCreatator";
+import { TransitionGroup, CSSTransition} from "react-transition-group";
 
 
 class Main extends Component {
@@ -49,8 +49,10 @@ componentDidMount () {
       <div style={{display:"flex", flexDirection:"column", minHeight:"100vh"}}>
            <Header/>
            <div style={{flex:1}}>
+           <TransitionGroup>
+          <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
             <Switch>
-                <Route exact path='/nhan-vien' component={() => <Menu onClickAdd={this.onClickAdd} staffs={this.props.staffs.staffs}
+                <Route exact path='/nhan-vien' component={() => <Menu addStaff={this.props.addStaff} staffs={this.props.staffs.staffs}
                 staffLoading={this.props.staffs.isLoading} staffErrMess={this.props.staffs.isErrMess}/>} />
                 <Route path="/nhan-vien/:id"
                 component={({match}) => <RenderStaff staff={this.props.staffs.staffs.filter((staff) => staff.id === parseInt(match.params.id, 10))[0]}
@@ -60,10 +62,12 @@ componentDidMount () {
                 </Route>
                 <Route exact path="/phong-ban/:id" component={DeptID}/>
                 <Route path="/bang-luong">
-                  <Salary staffs={this.props.salary.salary} staffLoading={this.props.salary.isLoading} staffErrMess={this.props.salary.isErrMess}/>
+                  <Salary salary={this.props.salary.salary} staffLoading={this.props.salary.isLoading} staffErrMess={this.props.salary.isErrMess}/>
                 </Route>
                 <Redirect to="/nhan-vien" />
             </Switch>
+            </CSSTransition>
+           </TransitionGroup>
            </div>
           <Footer/>
       </div>
@@ -82,7 +86,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   fetchStaff: () => dispatch(fetchStaff()),
   fetchDepartment: () => dispatch(fetchDepartment()),
-  fetchSalary: () => dispatch(fetchSalary())
+  fetchSalary: () => dispatch(fetchSalary()),
+  addStaff: (newStaff) => dispatch(addStaff(newStaff))
 
 })
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

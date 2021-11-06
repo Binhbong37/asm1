@@ -5,7 +5,7 @@ import { Loading } from "./loadingComponent"
 
 
 function Salary (props) {
-    let salary = props.staffs;
+    let salary = props.salary;
     const basicSalary = 3000000;
     const overtimeSalary = 2000000;
     if(props.staffLoading) {
@@ -34,13 +34,13 @@ function Salary (props) {
                 <div className="container">
                     <div className="row">
                         {salary.map((sla) => {
-                            const sumSalary = parseInt(basicSalary*sla.annualLeave) + parseInt(overtimeSalary*sla.overTime)
+                            const sumSalary = parseInt(basicSalary * sla.salaryScale) + parseInt(overtimeSalary * sla.overTime)
                             return(
                                 
                                 <div className="col-12 col-sm-6 col-md-4" key={sla.id}>
                                     <h2>{sla.name}</h2>
                                     <p>Mã nhân viên: {sla.id}</p>
-                                    <p>Hệ số lương: {sla.annualLeave}</p>
+                                    <p>Hệ số lương: {sla.salaryScale}</p>
                                     <p>Số giờ làm thêm: {sla.overTime}</p>
                                     <b style={{backgroundColor:"#f7f7f7", padding:"7px"}}>Lương: {sumSalary}</b>
                                 </div>

@@ -1,13 +1,27 @@
 import * as ActionTypes from "./actionTypes";
-import { STAFFS } from "../staff/staffs";
 import { baseUrl } from "../staff/baseUrl"
 
 export const fetchStaff = () => (dispatch) => {
     dispatch(StaffsLoading(true));
 
-    setTimeout(() => {
-        dispatch(addStaffs(STAFFS))
-    }, 2000)
+    return fetch(baseUrl + 'staffs')
+        .then(response => {
+                if (response.ok) {
+                    return response;
+                } else {
+                    var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                    error.response = response;
+                    throw error;
+                }
+            },
+            error => {
+                var errmess = new Error(error.message);
+                throw errmess;
+            })
+        .then(response => response.json())
+        .then(staffs => dispatch(addStaffs(staffs)))
+        .catch(error => dispatch(staffsFailed(error.message)));
+
 }
 export const StaffsLoading = () => {
     return{
@@ -95,7 +109,7 @@ export const staffDepartsFailed = (errmess) => ({
 export const fetchSalary = () => (dispatch) => {
     dispatch(salaryLoading(true))
 
-    return fetch("https://rjs101xbackend.herokuapp.com/staffsSalary")
+    return fetch(baseUrl + "staffsSalary")
     .then(response => {
         if(response.ok) {
             return response
@@ -125,3 +139,48 @@ export const salaryFailed = (errMess) => {
         payload: errMess
     }
 }
+
+// THÊM NHÂN VIÊN 
+
+export const addStaff = (staff) => (dispatch) => {
+    const newStaff = {
+        name: staff.name,
+        doB: staff.doB,
+        salaryScale: staff.salaryScale,
+        startDate: staff.startDate,
+        departmentId: staff.department,
+        annualLeave: staff.annualLeave,
+        overTime: staff.overTime,
+        image: staff.image,
+    };
+    console.log(staff)
+    newStaff.date = new Date().toISOString();
+    console.log(newStaff)
+    return fetch(baseUrl + 'staffs', {
+            method: "POST",
+            body: JSON.stringify(newStaff),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => {
+                if (response.ok) {
+                    return response;
+                } else {
+                    var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                    error.response = response;
+                    throw error;
+                }
+            },
+            error => {
+                throw error;
+            })
+        .then(response => response.json())
+        .then(response => {
+            dispatch(addStaffs(response))
+        })
+        .catch(error => {
+            console.log('post staffs', error.message);
+            alert('Your staff information could not be posted\nError: ' + error.message);
+        });
+};
