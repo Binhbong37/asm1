@@ -10,7 +10,7 @@ import {ROLE} from '../staff/staffs';
 // import {STAFFS} from '../staff/staffs';
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchStaff, fetchDepartment, fetchSalary, addStaff } from "../redux/actionCreatator";
+import { fetchStaff, fetchDepartment, fetchSalary, addStaff, deleteStaff } from "../redux/actionCreatator";
 import { TransitionGroup, CSSTransition} from "react-transition-group";
 
 
@@ -56,7 +56,8 @@ componentDidMount () {
                 staffLoading={this.props.staffs.isLoading} staffErrMess={this.props.staffs.isErrMess}/>} />
                 <Route path="/nhan-vien/:id"
                 component={({match}) => <RenderStaff staff={this.props.staffs.staffs.filter((staff) => staff.id === parseInt(match.params.id, 10))[0]}
-                staffLoading={this.props.staffs.isLoading} staffErrMess={this.props.staffs.isErrMess}/>}/>
+                staffLoading={this.props.staffs.isLoading} staffErrMess={this.props.staffs.isErrMess}
+                deleteStaff={this.props.deleteStaff}/>}/>
                 <Route exact path="/phong-ban">
                   <Department department={this.props.department.dept}/>
                 </Route>
@@ -87,7 +88,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchStaff: () => dispatch(fetchStaff()),
   fetchDepartment: () => dispatch(fetchDepartment()),
   fetchSalary: () => dispatch(fetchSalary()),
-  addStaff: (newStaff) => dispatch(addStaff(newStaff))
+  addStaff: (newStaff) => dispatch(addStaff(newStaff)),
+  deleteStaff: (id) => dispatch(deleteStaff(id))
 
 })
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
