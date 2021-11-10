@@ -7,6 +7,7 @@ import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import {ROLE} from '../staff/staffs';
 import {STAFFS} from '../staff/staffs';
+import { DEPARTMENTS } from "../staff/staffs";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 
 
@@ -17,6 +18,7 @@ class Main extends Component {
     this.state = {
       staffs: STAFFS,
       role: ROLE,
+      departments: DEPARTMENTS,
       selectedStaff: null
     }
   }
@@ -32,7 +34,7 @@ class Main extends Component {
               <Route path="/nhanvien/:id"
               component={({match}) => <RenderStaff staff={this.state.staffs.filter((staff) => staff.id === parseInt(match.params.id, 10)) [0]}/>}/>
               <Route path="/phongban">
-                <Department />
+                <Department departments={this.state.departments}/>
               </Route>
               <Route path="/bangluong">
                 <Salary staffs={this.state.staffs}/>
