@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Loading } from "./loadingComponent";
 import { connect } from "react-redux";
 import { fetchDepartOfStaff } from "../redux/actionCreatator";
-// import { FadeTransform } from "react-animation-components";
+import { FadeTransform } from "react-animation-components";
 
 
 
@@ -29,23 +29,23 @@ class StaffOfDepart extends Component {
 
     const RenderMenuItem = ({ staff }) => {
       return (
-        // <FadeTransform
-        //   in
-        //   transformProps={{
-        //     exitTransform: "scale(0.5) translateY(-50%)",
-        //   }}
-        // >
-        <Card>
-          <Link to={`/nhan-vien/${staff.id}`}>
-            <CardImg
-              width="100%"
-              src="/asset/images/alberto.png"
-              alt={staff.name}
-            />
-            <CardTitle className="text-center">{staff.name}</CardTitle>
-          </Link>
-        </Card>
-        // </FadeTransform>
+        <FadeTransform
+          in
+          transformProps={{
+            exitTransform: "scale(0.5) translateY(-50%)",
+          }}
+        >
+          <Card>
+            <Link to={`/nhan-vien/${staff.id}`}>
+              <CardImg
+                width="100%"
+                src="/asset/images/alberto.png"
+                alt={staff.name}
+              />
+              <CardTitle className="text-center">{staff.name}</CardTitle>
+            </Link>
+          </Card>
+         </FadeTransform>
       );
     };
     let staff = ''
@@ -53,7 +53,7 @@ class StaffOfDepart extends Component {
         staff = staffs
       return (
         <div className="col-6 col-md-4 col-lg-2" key={staff.id}>
-          <RenderMenuItem staff={staff} />
+           <RenderMenuItem staff={staff} />
         </div>
       );
     });
