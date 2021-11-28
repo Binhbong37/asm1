@@ -81,7 +81,7 @@ class StaffOfDepart extends Component {
                 <Jumbotron>
                         <div className="container">
                             <div className="row row-header">
-                                <div className="col-12 col-sm-6">
+                                <div className="col-12 col-sm-12 col-md-12">
                                     <h3>Nhân viên từng phòng ban</h3>
                                 </div>
                             </div>

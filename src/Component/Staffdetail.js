@@ -1,23 +1,26 @@
 import React from "react"
 import { Card, CardImg, CardBody, CardText, CardTitle, Breadcrumb, BreadcrumbItem} from 'reactstrap';
 import dateFormat from "dateformat";
-import { Link } from "react-router-dom";
-import { withRouter } from "react-router-dom"
-// import { CardImg } from "reactstrap"
+import { Link, withRouter } from "react-router-dom";
+
+
 
 
 
 function RenderStaff(props) {
     // Even XÓA
     const handleDelete = (id) => {
-        alert("Đã xóa")
-        props.deleteStaff(id)
-        props.history.push("/nhan-vien")
+        if(confirm("Bạn có chắc chắn muốn xóa không?")) {  // eslint-disable-line
+            props.deleteStaff(id)
+            props.history.push("/nhan-vien")
+
+        }
     }
     // SỬA 
     const handleEdit = (id) => {
-        alert("ĐANG HOÀN THIỆN")
+        alert("Đã chọn được: ")
         console.log(id)
+        
     }
     let staffs = props.staff
     if(staffs) {

@@ -4,6 +4,7 @@ import RenderStaff from './Staffdetail';
 import Department from './DepartmenComponen';
 import StaffOfDepart from './staffOfDepart';
 import Salary from './SalaryComponent';
+import FormRedux from './FormRedux';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import {ROLE} from '../staff/staffs';
@@ -23,18 +24,6 @@ class Main extends Component {
       selectedStaff: null
     }
   }
-// EVENT ADD Employee
-// onClickAdd = (data) => {
-//   const { staffs } = this.state;
-//   staffs.push(data)
-//   this.setState({
-//     staffs: staffs
-//   })
-// }
-
-
-
-
 componentDidMount () {
   this.props.fetchStaff()
   this.props.fetchDepartment()
@@ -64,6 +53,9 @@ componentDidMount () {
                 <Route exact path="/phong-ban/:id" component={DeptID}/>
                 <Route path="/bang-luong">
                   <Salary salary={this.props.salary.salary} staffLoading={this.props.salary.isLoading} staffErrMess={this.props.salary.isErrMess}/>
+                </Route>
+                <Route path="/form-Login">
+                  <FormRedux/>
                 </Route>
                 <Redirect to="/nhan-vien" />
             </Switch>

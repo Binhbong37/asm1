@@ -40,6 +40,11 @@ class Header extends Component {
                     <span className="fa fa-money fa-lg"></span> Bảng lương
                   </NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink className="nav-link" to="/form-Login">
+                    <span className="fa fa-money fa-lg"></span> Login
+                  </NavLink>
+                </NavItem>
               </Nav>
             </Collapse>
         </div>
