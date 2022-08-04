@@ -57,8 +57,8 @@ class StaffList extends Component {
                 <div
                     key={staff.id}
                     className={`col-5 col-md-${
-                        showNumCol === 1 ? 3 : showNumCol === 2 ? 5 : 2
-                    } m-1`}
+                        showNumCol === 1 ? 4 : showNumCol === 2 ? 6 : 2
+                    } my-2`}
                     onClick={() => this.handleTakeDetailStaff(staff)}
                 >
                     <Card className="hover1">
@@ -80,7 +80,7 @@ class StaffList extends Component {
                     >
                         <option value={'1'}>3 cột</option>
                         <option value={'2'}>2 cột</option>
-                        <option value={'3'}>5 cột</option>
+                        <option value={'3'}>6 cột</option>
                     </select>
                 </div>
                 <div className="row">{menu}</div>
