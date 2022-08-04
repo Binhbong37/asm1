@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardTitle, CardText } from 'reactstrap';
+import { Card, CardTitle, CardText, CardImg } from 'reactstrap';
 import dateFormat from 'dateformat';
 
 import { STAFFS } from '../staff/staffs';
@@ -56,13 +56,16 @@ class StaffList extends Component {
             return (
                 <div
                     key={staff.id}
-                    className={`col-5 col-md-${
-                        showNumCol === 1 ? 4 : showNumCol === 2 ? 6 : 2
+                    className={`col-6 col-sm-4 col-md-${
+                        showNumCol === 1 ? 2 : showNumCol === 2 ? 3 : 4
                     } my-2`}
                     onClick={() => this.handleTakeDetailStaff(staff)}
                 >
                     <Card className="hover1">
-                        <CardTitle>{staff.name}</CardTitle>
+                        <CardImg src={staff.image} alt={staff.name} />
+                        <CardTitle tag={'h5'} style={{ textAlign: 'center' }}>
+                            {staff.name}
+                        </CardTitle>
                     </Card>
                 </div>
             );
@@ -78,9 +81,9 @@ class StaffList extends Component {
                         id="hienthi"
                         onChange={(e) => this.handleChangCol(e)}
                     >
-                        <option value={'1'}>3 cột</option>
-                        <option value={'2'}>2 cột</option>
-                        <option value={'3'}>6 cột</option>
+                        <option value={'1'}>6 cột</option>
+                        <option value={'2'}>4 cột</option>
+                        <option value={'3'}>3 cột</option>
                     </select>
                 </div>
                 <div className="row">{menu}</div>
