@@ -108,11 +108,25 @@ address {
     display: flex;
     flex-direction: row;
 }
-.mg-fle .btn {
+.btn {
     margin-left: 10px;
 }
 
 .hover1:hover {
     background-color: #eee;
     cursor: pointer;
+}
+
+.line {
+    border: 1px solid #ccc;
+}
+
+.layoutfull {
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+}
+
+.centerBlock {
+    flex: 1;
 }
