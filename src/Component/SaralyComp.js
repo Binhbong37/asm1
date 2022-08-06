@@ -1,11 +1,19 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardTitle, CardText, CardFooter, CardBody } from 'reactstrap';
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 
 import { STAFFS } from '../staff/staffs';
 
 const SaralyComp = () => {
     return (
         <div className="container mt-4">
+            <Breadcrumb>
+                <BreadcrumbItem>
+                    <Link to={'/'}>Nhân viên</Link>
+                </BreadcrumbItem>
+                <BreadcrumbItem active>Bảng lương</BreadcrumbItem>
+            </Breadcrumb>
             <div className="row">
                 {STAFFS.map((staff) => {
                     const { salaryScale, overTime } = staff;
