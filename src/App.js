@@ -1,10 +1,11 @@
-import React, { Fragment } from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './App.css';
 import Deparment from './Component/DeparmentComp';
 import DetailStaff from './Component/DetailStaff';
 import Footer from './Component/FooterComp';
+import FormLogin from './Component/FormLogin';
 import Header from './Component/HeaderComp';
 import NotFoundRoute from './Component/NotFoundRoute';
 import SaralyComp from './Component/SaralyComp';
@@ -37,6 +38,7 @@ const App = () => {
                             path={'/bang-luong'}
                             component={SaralyComp}
                         />
+                        <Route path={'/form-login'} component={FormLogin} />
                         <Route path={'*'} component={NotFoundRoute} />
                     </Switch>
                 </div>

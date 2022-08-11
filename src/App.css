@@ -139,3 +139,52 @@ address {
     background-color: #eee;
     padding: 0.5rem;
 }
+
+.result-sort {
+    margin-left: 20px;
+    background: green;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+
+.select-sort {
+    padding: 0.25rem;
+}
+
+.form-hienthi {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-search {
+    padding: 5px;
+    margin-right: 0.5rem;
+}
+
+.btn-search {
+    padding: 5px;
+}
+
+.icon_add {
+    width: 40px;
+    height: 40px;
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1rem;
+    cursor: pointer;
+}
+
+.icon_add i {
+    font-size: 20px;
+}
+.top_nv {
+    display: flex;
+    align-items: center;
+}
+
+.icon_add:hover {
+    opacity: 0.7;
+}

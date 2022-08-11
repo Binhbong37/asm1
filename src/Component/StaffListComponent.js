@@ -12,6 +12,7 @@ class StaffList extends Component {
             showNumCol: 1,
             showDesc: true,
             selectStaff: null,
+            searchStaff: '',
         };
     }
 
@@ -23,6 +24,25 @@ class StaffList extends Component {
     handleChangCol(e) {
         this.setState({ showNumCol: +e.target.value });
     }
+
+    // search
+    handleSearch = (e) => {
+        this.setState({
+            ...this.state.searchStaff,
+            searchStaff: e.target.value,
+        });
+    };
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const testStaff = this.state.staffs.filter((staff) => {
+            let findName = this.state.searchStaff.toLowerCase();
+            let nameInclu = staff.name.toLowerCase();
+            return nameInclu.includes(findName);
+        });
+
+        this.setState({ staffs: testStaff });
+    };
 
     render() {
         const { staffs, showDesc, showNumCol } = this.state;
@@ -54,20 +74,41 @@ class StaffList extends Component {
 
         return (
             <div className="container mt-2">
-                <h3>Nhân viên</h3>
+                <div className="top_nv">
+                    <h3>Nhân viên</h3>
+                    <div className="icon_add">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </div>
+                </div>
                 <div className="line"></div>
-                <div className="mt-3">
-                    <label htmlFor="hienthi">
-                        Cột hiển thị (Chỉ áp dụng cho màn laptop):{' '}
-                    </label>
-                    <select
-                        id="hienthi"
-                        onChange={(e) => this.handleChangCol(e)}
-                    >
-                        <option value={'1'}>6 cột</option>
-                        <option value={'2'}>4 cột</option>
-                        <option value={'3'}>3 cột</option>
-                    </select>
+                <div className="form-hienthi my-3">
+                    <div>
+                        <label htmlFor="hienthi">
+                            Cột hiển thị (Chỉ áp dụng cho màn laptop):{' '}
+                        </label>
+                        <select
+                            id="hienthi"
+                            onChange={(e) => this.handleChangCol(e)}
+                        >
+                            <option value={'1'}>6 cột</option>
+                            <option value={'2'}>4 cột</option>
+                            <option value={'3'}>3 cột</option>
+                        </select>
+                    </div>
+                    <div className="timkiem">
+                        <form onSubmit={this.handleSubmit}>
+                            <input
+                                type={'text'}
+                                placeholder="Nhập tên nhân viên"
+                                className="form-search"
+                                value={this.state.searchStaff}
+                                onChange={this.handleSearch}
+                            />
+                            <button type="submit" className="btn-search">
+                                Tìm
+                            </button>
+                        </form>
+                    </div>
                 </div>
                 <div className="row">{menu}</div>
                 {showDesc && (
