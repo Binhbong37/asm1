@@ -60,7 +60,9 @@ class App extends Component {
                             <Route
                                 exact
                                 path={'/bang-luong'}
-                                component={SaralyComp}
+                                component={() => (
+                                    <SaralyComp staffs={this.state.staffs} />
+                                )}
                             />
                             <Route path={'/form-login'} component={FormLogin} />
                             <Route path={'*'} component={NotFoundRoute} />

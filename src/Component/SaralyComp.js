@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom';
 import { Card, CardTitle, CardText, CardFooter, CardBody } from 'reactstrap';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 
-import { STAFFS } from '../staff/staffs';
-
 class SaralyComp extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            showStaffs: this.props.staffs,
             valueSort: 'name A-Z',
             sortValue: [3, 5, 6, 7, 6, 9, 2],
         };
@@ -21,7 +20,7 @@ class SaralyComp extends Component {
     };
 
     sortValueArr() {
-        STAFFS.sort((a, b) => {
+        this.state.showStaffs.sort((a, b) => {
             return b.id - a.id;
         });
     }
@@ -49,7 +48,7 @@ class SaralyComp extends Component {
                     <span className="result-sort">{this.state.valueSort}</span>
                 </div>
                 <div className="row">
-                    {STAFFS.map((staff) => {
+                    {this.state.showStaffs.map((staff) => {
                         const { salaryScale, overTime } = staff;
                         const luong =
                             Math.round(
