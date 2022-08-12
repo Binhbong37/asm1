@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './App.css';
@@ -11,41 +11,66 @@ import NotFoundRoute from './Component/NotFoundRoute';
 import SaralyComp from './Component/SaralyComp';
 import StaffList from './Component/StaffListComponent';
 
-const App = () => {
-    return (
-        <BrowserRouter>
-            <div className="layoutfull">
-                <Header />
-                <div className="centerBlock">
-                    <Switch>
-                        <Route
-                            exact
-                            path={'/'}
-                            component={() => <StaffList />}
-                        />
-                        <Route
-                            exact
-                            path={'/nhan-vien/:id'}
-                            component={DetailStaff}
-                        />
-                        <Route
-                            exact
-                            path={'/phong-ban'}
-                            component={Deparment}
-                        />
-                        <Route
-                            exact
-                            path={'/bang-luong'}
-                            component={SaralyComp}
-                        />
-                        <Route path={'/form-login'} component={FormLogin} />
-                        <Route path={'*'} component={NotFoundRoute} />
-                    </Switch>
+import { STAFFS } from './staff/staffs';
+
+class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            staffs: STAFFS,
+        };
+    }
+
+    addStaff = (staff) => {
+        this.setState({
+            ...this.state.staffs,
+            staffs: this.state.staffs.concat(staff),
+        });
+    };
+
+    render() {
+        return (
+            <BrowserRouter>
+                <div className="layoutfull">
+                    <Header />
+                    <div className="centerBlock">
+                        <Switch>
+                            <Route
+                                exact
+                                path={'/'}
+                                component={() => (
+                                    <StaffList
+                                        staffs={this.state.staffs}
+                                        addStaff={this.addStaff}
+                                    />
+                                )}
+                            />
+                            <Route
+                                exact
+                                path={'/nhan-vien/:id'}
+                                component={() => (
+                                    <DetailStaff staffs={this.state.staffs} />
+                                )}
+                            />
+                            <Route
+                                exact
+                                path={'/phong-ban'}
+                                component={Deparment}
+                            />
+                            <Route
+                                exact
+                                path={'/bang-luong'}
+                                component={SaralyComp}
+                            />
+                            <Route path={'/form-login'} component={FormLogin} />
+                            <Route path={'*'} component={NotFoundRoute} />
+                        </Switch>
+                    </div>
+                    <Footer />
                 </div>
-                <Footer />
-            </div>
-        </BrowserRouter>
-    );
-};
+            </BrowserRouter>
+        );
+    }
+}
 
 export default App;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import dateFormat from 'dateformat';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import {
     Card,
     CardTitle,
@@ -10,25 +10,27 @@ import {
     BreadcrumbItem,
 } from 'reactstrap';
 
-import { STAFFS } from '../staff/staffs';
-
 class DetailStaff extends Component {
     constructor(props) {
         super(props);
-        const nameId = this.props.match.params.id;
-        let staff = STAFFS.filter((staf) => staf.id === +nameId);
 
         this.state = {
-            selectStaff: staff[0],
+            selectStaff: {},
         };
     }
+    takeStaff = (data) => {
+        const staffID = +data.match.params.id;
+
+        let staffDetail = data.staffs.filter((staff) => staff.id === staffID);
+        return this.renderStaffDetail(staffDetail[0]);
+    };
     renderStaffDetail(staff) {
         if (staff !== undefined) {
             const {
                 name,
                 doB,
                 startDate,
-                department,
+
                 overTime,
                 annualLeave,
                 image,
@@ -56,7 +58,10 @@ class DetailStaff extends Component {
                             <CardText>
                                 Ngày bắt đầu làm việc: {startDateFormat}
                             </CardText>
-                            <CardText>Phòng ban: {department.name}</CardText>
+                            <CardText>
+                                Phòng ban:{' '}
+                                {staff.department.name || staff.department}
+                            </CardText>
                             <CardText>
                                 Số ngày nghỉ còn lại: {annualLeave}
                             </CardText>
@@ -80,12 +85,10 @@ class DetailStaff extends Component {
     render() {
         return (
             <div className="container mb-5">
-                <div className="row">
-                    {this.renderStaffDetail(this.state.selectStaff)}
-                </div>
+                <div className="row">{this.takeStaff(this.props)}</div>
             </div>
         );
     }
 }
 
-export default DetailStaff;
+export default withRouter(DetailStaff);

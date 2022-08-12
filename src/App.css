@@ -163,13 +163,27 @@ address {
 }
 
 .btn-search {
-    padding: 5px;
+    padding: 5px 10px;
+    outline: none;
+    border: 1px solid blue;
+    background-color: #007bff;
+    color: #fff;
+}
+
+@media (max-width: 912px) {
+    .hienthi_cot {
+        display: none;
+    }
+
+    .top_nv {
+        justify-content: space-between;
+    }
 }
 
 .icon_add {
     width: 40px;
     height: 40px;
-    background-color: #eee;
+    background-color: #ccc;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -186,5 +200,56 @@ address {
 }
 
 .icon_add:hover {
-    opacity: 0.7;
+    background-color: #282c34;
+    color: #fff;
+}
+
+.modal-form {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-container {
+    position: absolute;
+    min-width: 700px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 1rem;
+    left: 50%;
+    top: 10%;
+    transform: translateX(-50%);
+}
+
+.icon_exit {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+}
+
+.icon_exit i {
+    font-size: 20px;
+}
+
+.form-group {
+    display: flex;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    min-width: 150px;
+    font-weight: 500;
+}
+
+.btn-add {
+    text-align: center;
 }

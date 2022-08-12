@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardTitle, CardImg } from 'reactstrap';
 
-import { STAFFS } from '../staff/staffs';
+import FormAddStaff from './FormAddStaff';
 
 class StaffList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            staffs: STAFFS,
+            showStaffs: this.props.staffs,
             showNumCol: 1,
             showDesc: true,
             selectStaff: null,
             searchStaff: '',
+            showFormAdd: false,
         };
     }
 
@@ -28,25 +29,55 @@ class StaffList extends Component {
     // search
     handleSearch = (e) => {
         this.setState({
-            ...this.state.searchStaff,
             searchStaff: e.target.value,
         });
     };
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const testStaff = this.state.staffs.filter((staff) => {
+        let testStaff;
+
+        if (!this.state.searchStaff) {
+            return this.setState({ showStaffs: this.props.staffs });
+        }
+
+        testStaff = this.props.staffs.filter((staff) => {
             let findName = this.state.searchStaff.toLowerCase();
             let nameInclu = staff.name.toLowerCase();
+
             return nameInclu.includes(findName);
         });
 
-        this.setState({ staffs: testStaff });
+        this.setState({
+            showStaffs: testStaff,
+        });
+    };
+
+    // toggleModal
+    toggleModal = () => {
+        this.setState({ showFormAdd: false });
+    };
+
+    // add staff
+    addStaff = (staff) => {
+        const newStaff = {
+            id: this.props.staffs.length + 1,
+            name: staff.name,
+            doB: staff.doB,
+            salaryScale: staff.salary,
+            startDate: staff.startDate,
+            department: staff.department,
+            annualLeave: staff.annuaLeave,
+            overTime: staff.overTime,
+            image: '/assets/images/alberto.png',
+        };
+
+        this.props.addStaff(newStaff);
     };
 
     render() {
-        const { staffs, showDesc, showNumCol } = this.state;
-        const menu = staffs.map((staff) => {
+        const { showDesc, showNumCol } = this.state;
+        const menu = this.state.showStaffs.map((staff) => {
             return (
                 <div
                     key={staff.id}
@@ -74,18 +105,19 @@ class StaffList extends Component {
 
         return (
             <div className="container mt-2">
-                <div className="top_nv">
+                <div className="top_nv mb-2">
                     <h3>Nhân viên</h3>
-                    <div className="icon_add">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    <div
+                        className="icon_add"
+                        onClick={() => this.setState({ showFormAdd: true })}
+                    >
+                        <i className="fa fa-plus" aria-hidden="true"></i>
                     </div>
                 </div>
                 <div className="line"></div>
                 <div className="form-hienthi my-3">
-                    <div>
-                        <label htmlFor="hienthi">
-                            Cột hiển thị (Chỉ áp dụng cho màn laptop):{' '}
-                        </label>
+                    <div className="hienthi_cot">
+                        <label htmlFor="hienthi">Cột hiển thị </label>
                         <select
                             id="hienthi"
                             onChange={(e) => this.handleChangCol(e)}
@@ -115,6 +147,12 @@ class StaffList extends Component {
                     <p className="mt-2">
                         Bấm vào từng nhân viên để xem thông tin chi tiết
                     </p>
+                )}
+                {this.state.showFormAdd && (
+                    <FormAddStaff
+                        staff={this.addStaff}
+                        toggleModal={this.toggleModal}
+                    />
                 )}
             </div>
         );

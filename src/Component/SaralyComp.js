@@ -58,7 +58,10 @@ class SaralyComp extends Component {
                             ) / 1000;
 
                         return (
-                            <div className="col-12 col-sm-6 col-md-4 my-2">
+                            <div
+                                key={staff.id}
+                                className="col-12 col-sm-6 col-md-4 my-2"
+                            >
                                 <Card className="p-3">
                                     <CardTitle
                                         tag={'h4'}
