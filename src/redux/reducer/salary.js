@@ -1,23 +1,33 @@
-import * as ActionTypes from "./actionTypes";
+import * as ActionTypes from '../actions/actionTypes';
 
 const initial = {
     isLoading: true,
     salary: [],
-    errMess: null
-}
+    errMess: null,
+};
 
 export const Salary = (state = initial, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case ActionTypes.ADD_SALARY:
-            return {...state, isLoading: false, salary: action.payload, errMess: null}
+            return {
+                ...state,
+                isLoading: false,
+                salary: action.payload,
+                errMess: null,
+            };
 
         case ActionTypes.SALARY_LOADING:
-            return {...state, isLoading: true, salary: [], errMess: null}
+            return { ...state, isLoading: true, salary: [], errMess: null };
 
         case ActionTypes.SALARY_FAILED:
-            return {...state, isLoading: false, salary: [], errMess: action.payload}
+            return {
+                ...state,
+                isLoading: false,
+                salary: [],
+                errMess: action.payload,
+            };
 
         default:
-            return state
+            return state;
     }
-}
+};

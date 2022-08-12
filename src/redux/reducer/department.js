@@ -1,19 +1,20 @@
-import * as ActionTypes from "./actionTypes";
+import * as ActionTypes from '../actions/actionTypes';
 
-
-export const Dept = (state = {
-    dept:[],
-    isErrMess:null
-}, action) => {
-    switch(action.type) {
+export const Dept = (
+    state = {
+        dept: [],
+        isErrMess: null,
+    },
+    action
+) => {
+    switch (action.type) {
         case ActionTypes.ADD_DEPARTMENTS:
-            return {...state, dept: action.payload, isErrMess: null}
+            return { ...state, dept: action.payload, isErrMess: null };
 
         case ActionTypes.DEPARTMENT_FAILED:
-            return {...state, dept: [], isErrMess: action.payload}
-
+            return { ...state, dept: [], isErrMess: action.payload };
 
         default:
-            return state
+            return state;
     }
-}
+};
