@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardTitle, CardImg } from 'reactstrap';
+import { connect } from 'react-redux';
 
 import FormAddStaff from './FormAddStaff';
+import { fetchStaff } from '../redux/actions/actionCreatator';
+import { Loading } from './Loading';
 
 class StaffList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showStaffs: this.props.staffs,
             showNumCol: 1,
             showDesc: true,
             selectStaff: null,
@@ -75,9 +77,14 @@ class StaffList extends Component {
         this.props.addStaff(newStaff);
     };
 
+    componentDidMount() {
+        this.props.fetchStaff();
+    }
+
     render() {
+        const { isLoading, isErrMess, staffs } = this.props.stafffs;
         const { showDesc, showNumCol } = this.state;
-        const menu = this.state.showStaffs.map((staff) => {
+        const menu = staffs.map((staff) => {
             return (
                 <div
                     key={staff.id}
@@ -103,60 +110,80 @@ class StaffList extends Component {
             );
         });
 
-        return (
-            <div className="container mt-2">
-                <div className="top_nv mb-2">
-                    <h3>Nhân viên</h3>
-                    <div
-                        className="icon_add"
-                        onClick={() => this.setState({ showFormAdd: true })}
-                    >
-                        <i className="fa fa-plus" aria-hidden="true"></i>
-                    </div>
+        if (isLoading) {
+            return (
+                <div className="center">
+                    <Loading />
                 </div>
-                <div className="line"></div>
-                <div className="form-hienthi my-3">
-                    <div className="hienthi_cot">
-                        <label htmlFor="hienthi">Cột hiển thị </label>
-                        <select
-                            id="hienthi"
-                            onChange={(e) => this.handleChangCol(e)}
+            );
+        } else {
+            return (
+                <div className="container mt-2">
+                    <div className="top_nv mb-2">
+                        <h3>Nhân viên</h3>
+                        <div
+                            className="icon_add"
+                            onClick={() => this.setState({ showFormAdd: true })}
                         >
-                            <option value={'1'}>6 cột</option>
-                            <option value={'2'}>4 cột</option>
-                            <option value={'3'}>3 cột</option>
-                        </select>
+                            <i className="fa fa-plus" aria-hidden="true"></i>
+                        </div>
                     </div>
-                    <div className="timkiem">
-                        <form onSubmit={this.handleSubmit}>
-                            <input
-                                type={'text'}
-                                placeholder="Nhập tên nhân viên"
-                                className="form-search"
-                                value={this.state.searchStaff}
-                                onChange={this.handleSearch}
-                            />
-                            <button type="submit" className="btn-search">
-                                Tìm
-                            </button>
-                        </form>
+                    <div className="line"></div>
+                    <div className="form-hienthi my-3">
+                        <div className="hienthi_cot">
+                            <label htmlFor="hienthi">Cột hiển thị </label>
+                            <select
+                                id="hienthi"
+                                onChange={(e) => this.handleChangCol(e)}
+                            >
+                                <option value={'1'}>6 cột</option>
+                                <option value={'2'}>4 cột</option>
+                                <option value={'3'}>3 cột</option>
+                            </select>
+                        </div>
+                        <div className="timkiem">
+                            <form onSubmit={this.handleSubmit}>
+                                <input
+                                    type={'text'}
+                                    placeholder="Nhập tên nhân viên"
+                                    className="form-search"
+                                    value={this.state.searchStaff}
+                                    onChange={this.handleSearch}
+                                />
+                                <button type="submit" className="btn-search">
+                                    Tìm
+                                </button>
+                            </form>
+                        </div>
                     </div>
+                    <div className="row">{menu}</div>
+                    {showDesc && (
+                        <p className="mt-2">
+                            Bấm vào từng nhân viên để xem thông tin chi tiết
+                        </p>
+                    )}
+                    {this.state.showFormAdd && (
+                        <FormAddStaff
+                            staff={this.addStaff}
+                            toggleModal={this.toggleModal}
+                        />
+                    )}
                 </div>
-                <div className="row">{menu}</div>
-                {showDesc && (
-                    <p className="mt-2">
-                        Bấm vào từng nhân viên để xem thông tin chi tiết
-                    </p>
-                )}
-                {this.state.showFormAdd && (
-                    <FormAddStaff
-                        staff={this.addStaff}
-                        toggleModal={this.toggleModal}
-                    />
-                )}
-            </div>
-        );
+            );
+        }
     }
 }
 
-export default StaffList;
+const mapStateToProps = (state) => {
+    return {
+        stafffs: state.staffs,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchStaff: () => dispatch(fetchStaff()),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(StaffList);

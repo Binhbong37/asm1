@@ -1,146 +1,166 @@
-import * as ActionTypes from "./actionTypes";
-import { baseUrl } from "../staff/baseUrl"
+import * as ActionTypes from './actionTypes';
+import { baseUrl } from '../../staff/baseUrl';
 
 export const fetchStaff = () => (dispatch) => {
     dispatch(StaffsLoading(true));
 
     return fetch(baseUrl + 'staffs')
-        .then(response => {
+        .then(
+            (response) => {
                 if (response.ok) {
                     return response;
                 } else {
-                    var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                    var error = new Error(
+                        'Error ' + response.status + ': ' + response.statusText
+                    );
                     error.response = response;
                     throw error;
                 }
             },
-            error => {
+            (error) => {
                 var errmess = new Error(error.message);
                 throw errmess;
-            })
-        .then(response => response.json())
-        .then(staffs => dispatch(addStaffs(staffs)))
-        .catch(error => dispatch(staffsFailed(error.message)));
-
-}
+            }
+        )
+        .then((response) => response.json())
+        .then((staffs) => dispatch(addStaff(staffs)))
+        .catch((error) => dispatch(staffsFailed(error.message)));
+};
 export const StaffsLoading = () => {
-    return{
-        type: ActionTypes.STAFFS_LOADING
-    }
+    return {
+        type: ActionTypes.STAFFS_LOADING,
+    };
 };
 export const staffsFailed = (errMess) => ({
     type: ActionTypes.STAFFS_FAILED,
-    payload: errMess
-})
+    payload: errMess,
+});
 export const addStaffs = (staff) => ({
     type: ActionTypes.ADD_STAFFS,
-    payload: staff
-})
+    payload: staff,
+});
 
 // ADD Department
 export const fetchDepartment = () => (dispatch) => {
-
-    return fetch("https://rjs101xbackend.herokuapp.com/departments")
-    .then(response => {
-        if(response.ok) {
-            return response
-        } else {
-            var error = new Error("Errors: "+ response.status + ": " + response.statusText)
-            error.response = response;
-            throw error
-        }
-    }, error => {
-        var errMess = new Error(error.message);
-        throw errMess;
-    })
-    .then(response => response.json())
-    .then(dept => dispatch(addDepartments(dept)))
-    .catch(error => dispatch(deptFailed(error.message)))
-
-}
-
-export const addDepartments = (dept) => ({
-    type: ActionTypes.ADD_DEPARTMENTS,
-    payload: dept
-})
-export const deptFailed = (error) => ({
-    type: ActionTypes.DEPARTMENT_FAILED,
-    payload: error 
-})
-// ĐIỀU KIỆN ĐỂ CLICK SẼ HIỆN TỪNG PHÒNG BAN
-
-export const fetchDepartOfStaff = (departmentId) => (dispatch) => {
-
-    dispatch(staffDepartsLoading(true));
-
-    return fetch(baseUrl + `departments/${departmentId}`)
-        .then(response => {
+    return fetch('https://rjs101xbackend.herokuapp.com/departments')
+        .then(
+            (response) => {
                 if (response.ok) {
                     return response;
                 } else {
-                    var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                    var error = new Error(
+                        'Errors: ' +
+                            response.status +
+                            ': ' +
+                            response.statusText
+                    );
                     error.response = response;
                     throw error;
                 }
             },
-            error => {
+            (error) => {
+                var errMess = new Error(error.message);
+                throw errMess;
+            }
+        )
+        .then((response) => response.json())
+        .then((dept) => dispatch(addDepartments(dept)))
+        .catch((error) => dispatch(deptFailed(error.message)));
+};
+
+export const addDepartments = (dept) => ({
+    type: ActionTypes.ADD_DEPARTMENTS,
+    payload: dept,
+});
+export const deptFailed = (error) => ({
+    type: ActionTypes.DEPARTMENT_FAILED,
+    payload: error,
+});
+// ĐIỀU KIỆN ĐỂ CLICK SẼ HIỆN TỪNG PHÒNG BAN
+
+export const fetchDepartOfStaff = (departmentId) => (dispatch) => {
+    dispatch(staffDepartsLoading(true));
+
+    return fetch(baseUrl + `departments/${departmentId}`)
+        .then(
+            (response) => {
+                if (response.ok) {
+                    return response;
+                } else {
+                    var error = new Error(
+                        'Error ' + response.status + ': ' + response.statusText
+                    );
+                    error.response = response;
+                    throw error;
+                }
+            },
+            (error) => {
                 var errmess = new Error(error.message);
                 throw errmess;
-            })
-        .then(response => response.json())
-        .then(staffs => dispatch(addStaffOfDeparts(staffs)))
-        .catch(error => dispatch(staffDepartsFailed(error.message)));
-}
+            }
+        )
+        .then((response) => response.json())
+        .then((staffs) => dispatch(addStaffOfDeparts(staffs)))
+        .catch((error) => dispatch(staffDepartsFailed(error.message)));
+};
 export const addStaffOfDeparts = (staffs) => ({
     type: ActionTypes.ADD_STAFF_DEPART,
-    payload: staffs
+    payload: staffs,
 });
 
 export const staffDepartsLoading = () => ({
-    type: ActionTypes.STAFFS_DEPART_LOADING
+    type: ActionTypes.STAFFS_DEPART_LOADING,
 });
 
 export const staffDepartsFailed = (errmess) => ({
     type: ActionTypes.STAFFS_DEPART_FAILED,
-    payload: errmess
+    payload: errmess,
 });
 
 // ADD SALARY
 export const fetchSalary = () => (dispatch) => {
-    dispatch(salaryLoading(true))
+    dispatch(salaryLoading(true));
 
-    return fetch(baseUrl + "staffsSalary")
-    .then(response => {
-        if(response.ok) {
-            return response
-        } else {
-            var error = new Error("Errors: "+ response.status + ": " + response.statusText)
-            error.response = response;
-            throw error
-        }
-    }, error => {
-        var errMess = new Error(error.message);
-        throw errMess;
-    })
-    .then(response => response.json())
-    .then(dept => dispatch(addSalary(dept)))
-    .catch(error => dispatch(salaryFailed(error.message)))
-}
+    return fetch(baseUrl + 'staffsSalary')
+        .then(
+            (response) => {
+                if (response.ok) {
+                    return response;
+                } else {
+                    var error = new Error(
+                        'Errors: ' +
+                            response.status +
+                            ': ' +
+                            response.statusText
+                    );
+                    error.response = response;
+                    throw error;
+                }
+            },
+            (error) => {
+                var errMess = new Error(error.message);
+                throw errMess;
+            }
+        )
+        .then((response) => response.json())
+        .then((dept) => dispatch(addSalary(dept)))
+        .catch((error) => dispatch(salaryFailed(error.message)));
+};
 export const addSalary = (salary) => ({
     type: ActionTypes.ADD_SALARY,
-    payload: salary
-})
+    payload: salary,
+});
 export const salaryLoading = () => ({
-    type: ActionTypes.SALARY_LOADING
-})
+    type: ActionTypes.SALARY_LOADING,
+});
 export const salaryFailed = (errMess) => {
-    return{
+    return {
         type: ActionTypes.SALARY_FAILED,
-        payload: errMess
-    }
-}
+        payload: errMess,
+    };
+};
 
-// THÊM NHÂN VIÊN 
+// THÊM NHÂN VIÊN
 
 export const addStaff = (staff) => (dispatch) => {
     const newStaff = {
@@ -153,61 +173,75 @@ export const addStaff = (staff) => (dispatch) => {
         overTime: staff.overTime,
         image: staff.image,
     };
-    console.log(staff)
+    console.log(staff);
     newStaff.date = new Date().toISOString();
-    console.log(newStaff)
+    console.log(newStaff);
     return fetch(baseUrl + 'staffs', {
-            method: "POST",
-            body: JSON.stringify(newStaff),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-        .then(response => {
+        method: 'POST',
+        body: JSON.stringify(newStaff),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(
+            (response) => {
                 if (response.ok) {
                     return response;
                 } else {
-                    var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                    var error = new Error(
+                        'Error ' + response.status + ': ' + response.statusText
+                    );
                     error.response = response;
                     throw error;
                 }
             },
-            error => {
+            (error) => {
                 throw error;
-            })
-        .then(response => response.json())
-        .then(response => {
-            dispatch(addStaffs(response))
+            }
+        )
+        .then((response) => response.json())
+        .then((response) => {
+            dispatch(addStaffs(response));
         })
-        .catch(error => {
+        .catch((error) => {
             console.log('post staffs', error.message);
-            alert('Your staff information could not be posted\nError: ' + error.message);
+            alert(
+                'Your staff information could not be posted\nError: ' +
+                    error.message
+            );
         });
 };
 
 // XÓA NHÂN VIÊN
 export const deleteStaff = (id) => (dispatch) => {
     return fetch(baseUrl + 'staffs/' + id, {
-            method: "DELETE",
-        })
-        .then(response => {
+        method: 'DELETE',
+    })
+        .then(
+            (response) => {
                 if (response.ok) {
                     return response;
                 } else {
-                    var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                    var error = new Error(
+                        'Error ' + response.status + ': ' + response.statusText
+                    );
                     error.response = response;
                     throw error;
                 }
             },
-            error => {
+            (error) => {
                 throw error;
-            })
-        .then(response => response.json())
-        .then(response => {
-            dispatch(addStaffs(response))
+            }
+        )
+        .then((response) => response.json())
+        .then((response) => {
+            dispatch(addStaffs(response));
         })
-        .catch(error => {
+        .catch((error) => {
             console.log('delete staffs', error.message);
-            alert('Your staff information could not be deleted\nError: ' + error.message);
+            alert(
+                'Your staff information could not be deleted\nError: ' +
+                    error.message
+            );
         });
-}
+};
