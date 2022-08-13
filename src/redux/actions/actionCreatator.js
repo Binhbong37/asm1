@@ -173,9 +173,9 @@ export const addStaff = (staff) => (dispatch) => {
         overTime: staff.overTime,
         image: staff.image,
     };
-    console.log(staff);
+
     newStaff.date = new Date().toISOString();
-    console.log(newStaff);
+
     return fetch(baseUrl + 'staffs', {
         method: 'POST',
         body: JSON.stringify(newStaff),

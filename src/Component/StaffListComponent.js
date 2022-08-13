@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardTitle, CardImg } from 'reactstrap';
-import { connect } from 'react-redux';
 
 import FormAddStaff from './FormAddStaff';
-import { fetchStaff } from '../redux/actions/actionCreatator';
 import { Loading } from './Loading';
 
 class StaffList extends Component {
@@ -77,12 +75,8 @@ class StaffList extends Component {
         this.props.addStaff(newStaff);
     };
 
-    componentDidMount() {
-        this.props.fetchStaff();
-    }
-
     render() {
-        const { isLoading, isErrMess, staffs } = this.props.stafffs;
+        const { staffs, isLoading } = this.props;
         const { showDesc, showNumCol } = this.state;
         const menu = staffs.map((staff) => {
             return (
@@ -174,16 +168,4 @@ class StaffList extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        stafffs: state.staffs,
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        fetchStaff: () => dispatch(fetchStaff()),
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(StaffList);
+export default StaffList;

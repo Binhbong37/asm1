@@ -9,6 +9,7 @@ import {
     Breadcrumb,
     BreadcrumbItem,
 } from 'reactstrap';
+import { Loading } from './Loading';
 
 class DetailStaff extends Component {
     constructor(props) {
@@ -21,20 +22,16 @@ class DetailStaff extends Component {
     takeStaff = (data) => {
         const staffID = +data.match.params.id;
 
-        let staffDetail = data.staffs.filter((staff) => staff.id === staffID);
+        let staffDetail = data.staffs.filter((staff) => {
+            return staff.id === staffID;
+        });
+
         return this.renderStaffDetail(staffDetail[0]);
     };
     renderStaffDetail(staff) {
         if (staff !== undefined) {
-            const {
-                name,
-                doB,
-                startDate,
-
-                overTime,
-                annualLeave,
-                image,
-            } = staff;
+            const { name, doB, startDate, overTime, annualLeave, image } =
+                staff;
 
             const startDateFormat = dateFormat(startDate, 'dd/mm/yyyy');
             const doBFormat = dateFormat(doB, 'dd/mm/yyyy');
@@ -44,11 +41,15 @@ class DetailStaff extends Component {
                         <BreadcrumbItem>
                             <Link to="/">Nhân viên</Link>
                         </BreadcrumbItem>
-                        <BreadcrumbItem active>{name}</BreadcrumbItem>
+                        <BreadcrumbItem active>{name || 'HV'}</BreadcrumbItem>
                     </Breadcrumb>
                     <div className="col-12 col-md-4">
                         <Card>
-                            <CardImg width={'100%'} src={image} alt={name} />
+                            <CardImg
+                                width={'100%'}
+                                src={image}
+                                alt={name || 'HV'}
+                            />
                         </Card>
                     </div>
                     <div className="col-12 col-md-8">
@@ -60,7 +61,15 @@ class DetailStaff extends Component {
                             </CardText>
                             <CardText>
                                 Phòng ban:{' '}
-                                {staff.department.name || staff.department}
+                                {staff.departmentId === 'Dept01'
+                                    ? 'Sale'
+                                    : staff.departmentId === 'Dept02'
+                                    ? 'HR'
+                                    : staff.departmentId === 'Dept03'
+                                    ? 'Marketing'
+                                    : staff.departmentId === 'Dept04'
+                                    ? 'IT'
+                                    : 'Finance'}
                             </CardText>
                             <CardText>
                                 Số ngày nghỉ còn lại: {annualLeave}
@@ -83,6 +92,14 @@ class DetailStaff extends Component {
     }
 
     render() {
+        const { isLoading } = this.props;
+        if (isLoading) {
+            return (
+                <div className="center">
+                    <Loading />
+                </div>
+            );
+        }
         return (
             <div className="container mb-5">
                 <div className="row">{this.takeStaff(this.props)}</div>

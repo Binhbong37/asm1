@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { fetchStaff } from './redux/actions/actionCreatator';
 
 import './App.css';
 import Deparment from './Component/DeparmentComp';
@@ -28,7 +30,12 @@ class App extends Component {
         });
     };
 
+    componentDidMount() {
+        this.props.fetchStaff();
+    }
+
     render() {
+        const { isLoading, isErrMess, staffs } = this.props.stafffs;
         return (
             <BrowserRouter>
                 <div className="layoutfull">
@@ -40,7 +47,8 @@ class App extends Component {
                                 path={'/'}
                                 component={() => (
                                     <StaffList
-                                        staffs={this.state.staffs}
+                                        staffs={staffs}
+                                        isLoading={isLoading}
                                         addStaff={this.addStaff}
                                     />
                                 )}
@@ -49,7 +57,10 @@ class App extends Component {
                                 exact
                                 path={'/nhan-vien/:id'}
                                 component={() => (
-                                    <DetailStaff staffs={this.state.staffs} />
+                                    <DetailStaff
+                                        isLoading={isLoading}
+                                        staffs={staffs}
+                                    />
                                 )}
                             />
                             <Route
@@ -75,4 +86,16 @@ class App extends Component {
     }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        stafffs: state.staffs,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchStaff: () => dispatch(fetchStaff()),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
