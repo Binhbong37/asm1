@@ -40,6 +40,41 @@ export const addStaffs = (staff) => ({
     payload: staff,
 });
 
+// delete
+// XÓA NHÂN VIÊN
+export const deleteStaff = (id) => (dispatch) => {
+    return fetch(baseUrl + 'staffs/' + id, {
+        method: 'DELETE',
+    })
+        .then(
+            (response) => {
+                if (response.ok) {
+                    return response;
+                } else {
+                    var error = new Error(
+                        'Error ' + response.status + ': ' + response.statusText
+                    );
+                    error.response = response;
+                    throw error;
+                }
+            },
+            (error) => {
+                throw error;
+            }
+        )
+        .then((response) => response.json())
+        .then((response) => {
+            dispatch(addStaffs(response));
+        })
+        .catch((error) => {
+            console.log('delete staffs', error.message);
+            alert(
+                'Your staff information could not be deleted\nError: ' +
+                    error.message
+            );
+        });
+};
+
 // ADD Department
 export const fetchDepartment = () => (dispatch) => {
     return fetch('https://rjs101xbackend.herokuapp.com/departments')
@@ -207,40 +242,6 @@ export const addStaff = (staff) => (dispatch) => {
             console.log('post staffs', error.message);
             alert(
                 'Your staff information could not be posted\nError: ' +
-                    error.message
-            );
-        });
-};
-
-// XÓA NHÂN VIÊN
-export const deleteStaff = (id) => (dispatch) => {
-    return fetch(baseUrl + 'staffs/' + id, {
-        method: 'DELETE',
-    })
-        .then(
-            (response) => {
-                if (response.ok) {
-                    return response;
-                } else {
-                    var error = new Error(
-                        'Error ' + response.status + ': ' + response.statusText
-                    );
-                    error.response = response;
-                    throw error;
-                }
-            },
-            (error) => {
-                throw error;
-            }
-        )
-        .then((response) => response.json())
-        .then((response) => {
-            dispatch(addStaffs(response));
-        })
-        .catch((error) => {
-            console.log('delete staffs', error.message);
-            alert(
-                'Your staff information could not be deleted\nError: ' +
                     error.message
             );
         });

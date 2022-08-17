@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import dateFormat from 'dateformat';
 import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import {
     Card,
     CardTitle,
@@ -10,6 +11,7 @@ import {
     BreadcrumbItem,
 } from 'reactstrap';
 import { Loading } from './Loading';
+import { deleteStaff } from '../redux/actions/actionCreatator';
 
 class DetailStaff extends Component {
     constructor(props) {
@@ -75,6 +77,18 @@ class DetailStaff extends Component {
                                 Số ngày nghỉ còn lại: {annualLeave}
                             </CardText>
                             <CardText>Số ngày đã làm thêm: {overTime}</CardText>
+
+                            <div className="mt-5">
+                                <button
+                                    onClick={() =>
+                                        this.handleDeleteStaff(staff.id)
+                                    }
+                                    className="btn btn-danger"
+                                >
+                                    Xóa
+                                </button>
+                                <button className="btn btn-warning">Sửa</button>
+                            </div>
                         </div>
                     </div>
                 </>
@@ -88,6 +102,17 @@ class DetailStaff extends Component {
                     </a>
                 </div>
             );
+        }
+    }
+
+    // delete
+
+    handleDeleteStaff(idStaff) {
+        if (window.confirm('Bạn chắc chắn muốn xóa nhân viên này ?')) {
+            this.props.deleteStaffID(idStaff);
+            this.props.history.push('/');
+        } else {
+            console.log('k xoa');
         }
     }
 
@@ -108,4 +133,10 @@ class DetailStaff extends Component {
     }
 }
 
-export default withRouter(DetailStaff);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        deleteStaffID: (id) => dispatch(deleteStaff(id)),
+    };
+};
+
+export default withRouter(connect(null, mapDispatchToProps)(DetailStaff));

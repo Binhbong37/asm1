@@ -14,6 +14,7 @@ class StaffList extends Component {
             selectStaff: null,
             searchStaff: '',
             showFormAdd: false,
+            showStaffs: this.props.staffs,
         };
     }
 
@@ -43,9 +44,14 @@ class StaffList extends Component {
 
         testStaff = this.props.staffs.filter((staff) => {
             let findName = this.state.searchStaff.toLowerCase();
-            let nameInclu = staff.name.toLowerCase();
+            let nameInclu;
+            if (staff.name !== undefined) {
+                return (nameInclu = staff.name.toLowerCase());
+            }
 
-            return nameInclu.includes(findName);
+            if (nameInclu !== undefined) {
+                return nameInclu.includes(findName);
+            }
         });
 
         this.setState({
@@ -76,9 +82,9 @@ class StaffList extends Component {
     };
 
     render() {
-        const { staffs, isLoading } = this.props;
+        const { isLoading } = this.props;
         const { showDesc, showNumCol } = this.state;
-        const menu = staffs.map((staff) => {
+        const menu = this.state.showStaffs.map((staff) => {
             return (
                 <div
                     key={staff.id}
