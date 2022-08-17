@@ -70,7 +70,7 @@ class Header extends Component {
                                         className="nav-link"
                                         to="/form-Login"
                                     >
-                                        <span className="fa fa-money fa-lg"></span>{' '}
+                                        <span className="fa fa-sign-in fa-lg"></span>{' '}
                                         Login
                                     </NavLink>
                                 </NavItem>

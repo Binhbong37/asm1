@@ -65,6 +65,7 @@ export const deleteStaff = (id) => (dispatch) => {
         .then((response) => response.json())
         .then((response) => {
             dispatch(addStaffs(response));
+            dispatch(addSalary(response));
         })
         .catch((error) => {
             console.log('delete staffs', error.message);

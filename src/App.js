@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchStaff, fetchDepartment } from './redux/actions/actionCreatator';
+import {
+    fetchStaff,
+    fetchDepartment,
+    fetchSalary,
+} from './redux/actions/actionCreatator';
 
 import './App.css';
 import Deparment from './Component/DeparmentComp';
@@ -29,6 +33,7 @@ class App extends Component {
     componentDidMount() {
         this.props.fetchStaff();
         this.props.fetchDepartment();
+        this.props.fetchSalary();
     }
 
     render() {
@@ -72,7 +77,7 @@ class App extends Component {
                                 exact
                                 path={'/bang-luong'}
                                 component={() => (
-                                    <SaralyComp staffs={this.state.staffs} />
+                                    <SaralyComp salary={this.props.salary} />
                                 )}
                             />
                             <Route path={'/form-login'} component={FormLogin} />
@@ -90,6 +95,7 @@ const mapStateToProps = (state) => {
     return {
         stafffs: state.staffs,
         dept: state.dept,
+        salary: state.salary,
     };
 };
 
@@ -97,6 +103,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetchStaff: () => dispatch(fetchStaff()),
         fetchDepartment: () => dispatch(fetchDepartment()),
+        fetchSalary: () => dispatch(fetchSalary()),
     };
 };
 

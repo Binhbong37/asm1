@@ -7,3 +7,6 @@ logic để xóa xong gọi api add luôn
 
 3. Nên hỏi là nếu để ở CP root rồi truyền thì mỗi lần f5
 nó gọi cả api bên kia
+
+4. Vấn đề api không thông với nhau, khi xóa nhân viên ở stafflist
+bên salary vẫn còn

@@ -12,7 +12,6 @@ const Deparment = ({ dept }) => {
             </div>
         );
     } else {
-        console.log('Dept: ', dept.dept);
         return (
             <div className="container-fluid mt-5">
                 <div className="row">

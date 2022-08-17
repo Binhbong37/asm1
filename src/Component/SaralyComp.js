@@ -7,7 +7,7 @@ class SaralyComp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showStaffs: this.props.staffs,
+            showStaffs: this.props.salary.salary,
             valueSort: 'name A-Z',
             sortValue: [3, 5, 6, 7, 6, 9, 2],
         };
@@ -49,13 +49,6 @@ class SaralyComp extends Component {
                 </div>
                 <div className="row">
                     {this.state.showStaffs.map((staff) => {
-                        const { salaryScale, overTime } = staff;
-                        const luong =
-                            Math.round(
-                                (salaryScale * 3000000 + overTime * 200000) *
-                                    1000
-                            ) / 1000;
-
                         return (
                             <div
                                 key={staff.id}
@@ -73,6 +66,21 @@ class SaralyComp extends Component {
                                             Mã nhân viên: {staff.id}
                                         </CardText>
                                         <CardText>
+                                            Phòng ban:{' '}
+                                            {staff.departmentId === 'Dept01'
+                                                ? 'Sales'
+                                                : staff.departmentId ===
+                                                  'Dept02'
+                                                ? 'HR'
+                                                : staff.departmentId ===
+                                                  'Dept03'
+                                                ? 'Marketing'
+                                                : staff.departmentId ===
+                                                  'Dept04'
+                                                ? 'IT'
+                                                : 'Finance'}
+                                        </CardText>
+                                        <CardText>
                                             Hệ số lương: {staff.salaryScale}
                                         </CardText>
                                         <CardText>
@@ -80,7 +88,7 @@ class SaralyComp extends Component {
                                         </CardText>
                                     </CardBody>
                                     <CardFooter className="ml-2">
-                                        Lương: {luong}
+                                        Lương: {staff.salary}
                                     </CardFooter>
                                 </Card>
                             </div>
