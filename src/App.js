@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchStaff } from './redux/actions/actionCreatator';
+import { fetchStaff, fetchDepartment } from './redux/actions/actionCreatator';
 
 import './App.css';
 import Deparment from './Component/DeparmentComp';
@@ -13,14 +13,10 @@ import NotFoundRoute from './Component/NotFoundRoute';
 import SaralyComp from './Component/SaralyComp';
 import StaffList from './Component/StaffListComponent';
 
-import { STAFFS } from './staff/staffs';
-
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            staffs: STAFFS,
-        };
+        this.state = {};
     }
 
     addStaff = (staff) => {
@@ -32,10 +28,12 @@ class App extends Component {
 
     componentDidMount() {
         this.props.fetchStaff();
+        this.props.fetchDepartment();
     }
 
     render() {
         const { isLoading, isErrMess, staffs } = this.props.stafffs;
+
         return (
             <BrowserRouter>
                 <div className="layoutfull">
@@ -66,7 +64,9 @@ class App extends Component {
                             <Route
                                 exact
                                 path={'/phong-ban'}
-                                component={Deparment}
+                                component={() => (
+                                    <Deparment dept={this.props.dept} />
+                                )}
                             />
                             <Route
                                 exact
@@ -89,12 +89,14 @@ class App extends Component {
 const mapStateToProps = (state) => {
     return {
         stafffs: state.staffs,
+        dept: state.dept,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchStaff: () => dispatch(fetchStaff()),
+        fetchDepartment: () => dispatch(fetchDepartment()),
     };
 };
 

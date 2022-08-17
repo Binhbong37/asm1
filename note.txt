@@ -1,0 +1,9 @@
+1. Phần xóa nhân viên đang không tạo một const mà dùng 
+logic để xóa xong gọi api add luôn
+
+2. Phần tìm kiếm 
+- Nên gọi hết ra rồi tìm
+- Gõ chữ nào thì nó search trên api ( cố gắng áp dụng cho debound)
+
+3. Nên hỏi là nếu để ở CP root rồi truyền thì mỗi lần f5
+nó gọi cả api bên kia

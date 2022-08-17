@@ -77,7 +77,7 @@ export const deleteStaff = (id) => (dispatch) => {
 
 // ADD Department
 export const fetchDepartment = () => (dispatch) => {
-    return fetch('https://rjs101xbackend.herokuapp.com/departments')
+    return fetch(baseUrl + 'departments')
         .then(
             (response) => {
                 if (response.ok) {
