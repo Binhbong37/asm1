@@ -23,7 +23,7 @@ export const fetchStaff = () => (dispatch) => {
             }
         )
         .then((response) => response.json())
-        .then((staffs) => dispatch(addStaff(staffs)))
+        .then((staffs) => dispatch(addStaffs(staffs)))
         .catch((error) => dispatch(staffsFailed(error.message)));
 };
 export const StaffsLoading = () => {
@@ -198,13 +198,23 @@ export const salaryFailed = (errMess) => {
 
 // THÊM NHÂN VIÊN
 
-export const addStaff = (staff) => (dispatch) => {
+export const addStafff = (staff) => (dispatch) => {
     const newStaff = {
+        id: staff.id,
         name: staff.name,
         doB: staff.doB,
         salaryScale: staff.salaryScale,
         startDate: staff.startDate,
-        departmentId: staff.department,
+        departmentId:
+            staff.department === 'Sale'
+                ? 'Dept01'
+                : staff.department === 'HR'
+                ? 'Dept02'
+                : staff.department === 'Marketing'
+                ? 'Dept03'
+                : staff.department === 'IT'
+                ? 'Dept04'
+                : 'Dept05',
         annualLeave: staff.annualLeave,
         overTime: staff.overTime,
         image: staff.image,
@@ -238,6 +248,7 @@ export const addStaff = (staff) => (dispatch) => {
         .then((response) => response.json())
         .then((response) => {
             dispatch(addStaffs(response));
+            dispatch(addSalary(response));
         })
         .catch((error) => {
             console.log('post staffs', error.message);

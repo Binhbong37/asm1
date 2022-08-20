@@ -10,3 +10,5 @@ nó gọi cả api bên kia
 
 4. Vấn đề api không thông với nhau, khi xóa nhân viên ở stafflist
 bên salary vẫn còn
+
+- Ở phần thêm nhân viên, không link với salary

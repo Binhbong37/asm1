@@ -5,6 +5,7 @@ import {
     fetchStaff,
     fetchDepartment,
     fetchSalary,
+    addStafff,
 } from './redux/actions/actionCreatator';
 
 import './App.css';
@@ -24,10 +25,7 @@ class App extends Component {
     }
 
     addStaff = (staff) => {
-        this.setState({
-            ...this.state.staffs,
-            staffs: this.state.staffs.concat(staff),
-        });
+        this.props.addStafff(staff);
     };
 
     componentDidMount() {
@@ -37,7 +35,7 @@ class App extends Component {
     }
 
     render() {
-        const { isLoading, isErrMess, staffs } = this.props.stafffs;
+        const { isLoading, staffs } = this.props.stafffs;
 
         return (
             <BrowserRouter>
@@ -104,6 +102,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchStaff: () => dispatch(fetchStaff()),
         fetchDepartment: () => dispatch(fetchDepartment()),
         fetchSalary: () => dispatch(fetchSalary()),
+        addStafff: (staff) => dispatch(addStafff(staff)),
     };
 };
 
