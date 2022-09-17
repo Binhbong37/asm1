@@ -258,3 +258,7 @@ address {
 .center {
     text-align: center;
 }
+
+.invalidFeedback {
+    color: red;
+}

@@ -112,8 +112,8 @@ export const deptFailed = (error) => ({
     type: ActionTypes.DEPARTMENT_FAILED,
     payload: error,
 });
-// ĐIỀU KIỆN ĐỂ CLICK SẼ HIỆN TỪNG PHÒNG BAN
 
+// ĐIỀU KIỆN ĐỂ CLICK SẼ HIỆN TỪNG PHÒNG BAN
 export const fetchDepartOfStaff = (departmentId) => (dispatch) => {
     dispatch(staffDepartsLoading(true));
 
@@ -197,7 +197,6 @@ export const salaryFailed = (errMess) => {
 };
 
 // THÊM NHÂN VIÊN
-
 export const addStafff = (staff) => (dispatch) => {
     const newStaff = {
         id: staff.id,
@@ -218,6 +217,7 @@ export const addStafff = (staff) => (dispatch) => {
         annualLeave: staff.annualLeave,
         overTime: staff.overTime,
         image: staff.image,
+        salary: 60000,
     };
 
     newStaff.date = new Date().toISOString();

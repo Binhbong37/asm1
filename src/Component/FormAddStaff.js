@@ -12,6 +12,7 @@ class FormAddStaff extends Component {
             overTime: 1,
             salary: 1,
             image: '/assets/images/alberto.png',
+            validateName: false,
         };
     }
 
@@ -30,8 +31,28 @@ class FormAddStaff extends Component {
 
     handleSubmitForm = (e) => {
         e.preventDefault();
+        if (!this.state.name) {
+            this.setState({
+                validateName: true,
+            });
+            return;
+        }
         this.props.staff(this.state);
         this.showModal();
+    };
+
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleModal);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleModal);
+    }
+
+    handleModal = (e) => {
+        if (e.keyCode === 27) {
+            this.showModal();
+        }
     };
 
     render() {
@@ -50,13 +71,20 @@ class FormAddStaff extends Component {
                                 <label htmlFor="name">Tên</label>
                                 <input
                                     type={'text'}
-                                    className="form-control"
+                                    className={`form-control ${
+                                        this.state.validateName && 'is-invalid'
+                                    }`}
                                     id="name"
                                     name="name"
                                     value={this.state.name}
                                     onChange={this.handleTakeData}
                                 />
                             </div>
+                            {this.state.validateName && (
+                                <div className="invalidFeedback center">
+                                    Name is requried!
+                                </div>
+                            )}
                             <div className="form-group">
                                 <label htmlFor="doB">Ngày sinh</label>
                                 <input

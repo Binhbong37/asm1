@@ -12,3 +12,6 @@ nó gọi cả api bên kia
 bên salary vẫn còn
 
 - Ở phần thêm nhân viên, không link với salary
+
+5. Tạo phần validate cho form add nhân viên
+- Chú ý tạo theo kiểu dùng form mà redux cho sẵn

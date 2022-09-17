@@ -36,27 +36,27 @@ class StaffList extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        let testStaff;
+        // let testStaff;
 
         if (!this.state.searchStaff) {
             return this.setState({ showStaffs: this.props.staffs });
         }
 
-        testStaff = this.props.staffs.filter((staff) => {
-            let findName = this.state.searchStaff.toLowerCase();
-            let nameInclu;
-            if (staff.name !== undefined) {
-                return (nameInclu = staff.name.toLowerCase());
-            }
+        // testStaff = this.props.staffs.filter((staff) => {
+        //     let findName = this.state.searchStaff.toLowerCase();
+        //     let nameInclu;
+        //     if (staff.name !== undefined) {
+        //         return (nameInclu = staff.name.toLowerCase());
+        //     }
 
-            if (nameInclu !== undefined) {
-                return nameInclu.includes(findName);
-            }
-        });
+        //     if (nameInclu !== undefined) {
+        //         return nameInclu.includes(findName);
+        //     }
+        // });
 
-        this.setState({
-            showStaffs: testStaff,
-        });
+        // this.setState({
+        //     showStaffs: testStaff,
+        // });
     };
 
     // toggleModal
@@ -166,6 +166,7 @@ class StaffList extends Component {
                         <FormAddStaff
                             staff={this.addStaff}
                             toggleModal={this.toggleModal}
+                            resetFormAddStaff={this.props.resetFormAddStaff}
                         />
                     )}
                 </div>
