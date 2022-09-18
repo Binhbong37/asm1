@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Card, CardTitle, CardImg } from 'reactstrap';
 
 import FormAddStaff from './FormAddStaff';
+import FormSearch from './FormSearch';
 import { Loading } from './Loading';
 
 class StaffList extends Component {
@@ -12,9 +13,9 @@ class StaffList extends Component {
             showNumCol: 1,
             showDesc: true,
             selectStaff: null,
-            searchStaff: '',
             showFormAdd: false,
             showStaffs: this.props.staffs,
+            searchStaff: '',
         };
     }
 
@@ -27,36 +28,8 @@ class StaffList extends Component {
         this.setState({ showNumCol: +e.target.value });
     }
 
-    // search
-    handleSearch = (e) => {
-        this.setState({
-            searchStaff: e.target.value,
-        });
-    };
-
-    handleSubmit = (e) => {
-        e.preventDefault();
-        // let testStaff;
-
-        if (!this.state.searchStaff) {
-            return this.setState({ showStaffs: this.props.staffs });
-        }
-
-        // testStaff = this.props.staffs.filter((staff) => {
-        //     let findName = this.state.searchStaff.toLowerCase();
-        //     let nameInclu;
-        //     if (staff.name !== undefined) {
-        //         return (nameInclu = staff.name.toLowerCase());
-        //     }
-
-        //     if (nameInclu !== undefined) {
-        //         return nameInclu.includes(findName);
-        //     }
-        // });
-
-        // this.setState({
-        //     showStaffs: testStaff,
-        // });
+    handleSubmit = (textSearch) => {
+        this.setState({ searchStaff: textSearch });
     };
 
     // toggleModal
@@ -83,32 +56,50 @@ class StaffList extends Component {
 
     render() {
         const { isLoading } = this.props;
-        const { showDesc, showNumCol } = this.state;
-        const menu = this.state.showStaffs.map((staff) => {
-            return (
-                <div
-                    key={staff.id}
-                    className={`col-6 col-sm-4 col-md-${
-                        showNumCol === 1 ? 3 : showNumCol === 2 ? 3 : 4
-                    } col-lg-${
-                        showNumCol === 1 ? 2 : showNumCol === 2 ? 3 : 4
-                    } my-2`}
-                    onClick={() => this.handleTakeDetailStaff(staff)}
-                >
-                    <Link to={`/nhan-vien/${staff.id}`}>
-                        <Card className="hover1">
-                            <CardImg src={staff.image} alt={staff.name} />
-                            <CardTitle
-                                tag={'h5'}
-                                style={{ textAlign: 'center' }}
-                            >
-                                {staff.name}
-                            </CardTitle>
-                        </Card>
-                    </Link>
-                </div>
-            );
-        });
+        let { showDesc, showNumCol, showStaffs, searchStaff } = this.state;
+        if (searchStaff) {
+            showStaffs = showStaffs.filter((staff) => {
+                const lowerStaff = staff.name.toLowerCase();
+                const lowerSearchStaff = searchStaff.toLowerCase();
+                const tachDauStaff = lowerStaff
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '');
+                const tachDauSearch = lowerSearchStaff
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '');
+                return tachDauStaff.includes(tachDauSearch);
+            });
+        }
+        let menu;
+        if (showStaffs.length <= 0) {
+            menu = <h2 className="center">Không có nhân viên nào!!</h2>;
+        } else {
+            menu = showStaffs.map((staff) => {
+                return (
+                    <div
+                        key={staff.id}
+                        className={`col-6 col-sm-4 col-md-${
+                            showNumCol === 1 ? 3 : showNumCol === 2 ? 3 : 4
+                        } col-lg-${
+                            showNumCol === 1 ? 2 : showNumCol === 2 ? 3 : 4
+                        } my-2`}
+                        onClick={() => this.handleTakeDetailStaff(staff)}
+                    >
+                        <Link to={`/nhan-vien/${staff.id}`}>
+                            <Card className="hover1">
+                                <CardImg src={staff.image} alt={staff.name} />
+                                <CardTitle
+                                    tag={'h5'}
+                                    style={{ textAlign: 'center' }}
+                                >
+                                    {staff.name}
+                                </CardTitle>
+                            </Card>
+                        </Link>
+                    </div>
+                );
+            });
+        }
 
         if (isLoading) {
             return (
@@ -142,18 +133,7 @@ class StaffList extends Component {
                             </select>
                         </div>
                         <div className="timkiem">
-                            <form onSubmit={this.handleSubmit}>
-                                <input
-                                    type={'text'}
-                                    placeholder="Nhập tên nhân viên"
-                                    className="form-search"
-                                    value={this.state.searchStaff}
-                                    onChange={this.handleSearch}
-                                />
-                                <button type="submit" className="btn-search">
-                                    Tìm
-                                </button>
-                            </form>
+                            <FormSearch handleSearch={this.handleSubmit} />
                         </div>
                     </div>
                     <div className="row">{menu}</div>

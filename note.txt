@@ -13,5 +13,8 @@ bên salary vẫn còn
 
 - Ở phần thêm nhân viên, không link với salary
 
-5. Tạo phần validate cho form add nhân viên
+5. Tạo phần validate cho form add nhân viên (chưa làm)
 - Chú ý tạo theo kiểu dùng form mà redux cho sẵn
+
+6. Tìm kiếm nhân viên sử dụng cả logic có dấu và không dấu
+- Lưu ý kiểu search (để ở phần render ) TH này là lấy hết dữ liệu ra rồi search
