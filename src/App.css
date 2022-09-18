@@ -171,7 +171,7 @@ address {
     color: #fff;
 }
 
-@media (max-width: 912px) {
+@media (max-width: 990px) {
     .hienthi_cot {
         display: none;
     }
@@ -212,6 +212,7 @@ address {
     bottom: 0;
     left: 0;
     background: rgba(0, 0, 0, 0.5);
+    z-index: 99;
 }
 
 .modal-container {
@@ -223,6 +224,27 @@ address {
     left: 50%;
     top: 10%;
     transform: translateX(-50%);
+}
+
+@media (max-width: 762px) {
+    .modal-container {
+        min-width: 600px;
+    }
+}
+@media (max-width: 652px) {
+    .modal-container {
+        min-width: 500px;
+    }
+}
+@media (max-width: 522px) {
+    .modal-container {
+        min-width: 400px;
+    }
+}
+@media (max-width: 375px) {
+    .modal-container {
+        min-width: 70px;
+    }
 }
 
 .icon_exit {
