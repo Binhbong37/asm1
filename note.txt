@@ -23,3 +23,7 @@ bên salary vẫn còn
 - Gửi dữ liệu đi để lưu vào db
 - Gửi dữ liệu đi rồi fetch lại, thì nó mới hiện đúng thứ tự
 
+8. Sort salary
+- Theo salary (A-Z, Z-A)
+- Theo name (A-Z, Z-A)
+

@@ -9,22 +9,55 @@ class SaralyComp extends Component {
         this.state = {
             showStaffs: this.props.salary.salary,
             valueSort: 'name A-Z',
-            sortValue: [3, 5, 6, 7, 6, 9, 2],
         };
     }
     handleChangeSort = (e) => {
         this.setState({
             valueSort: e.target.value,
         });
-        this.sortValueArr();
     };
 
-    sortValueArr() {
-        this.state.showStaffs.sort((a, b) => {
-            return b.id - a.id;
-        });
-    }
+    sortValueArr = (sortValue) => {
+        if (sortValue === 'saraly Z-A') {
+            return this.state.showStaffs.sort((a, b) => {
+                return b.salary - a.salary;
+            });
+        } else if (sortValue === 'saraly A-Z') {
+            return this.state.showStaffs.sort((a, b) => {
+                return a.salary - b.salary;
+            });
+        } else if (sortValue === 'name Z-A') {
+            return this.state.showStaffs.sort((a, b) => {
+                let n1 = a.name.toLowerCase();
+                let n2 = b.name.toLowerCase();
+                if (n1 < n2) {
+                    return 1;
+                }
+                if (n1 > n2) {
+                    return -1;
+                }
+                return 0;
+            });
+        } else {
+            return this.state.showStaffs.sort((a, b) => {
+                let n1 = a.name.toLowerCase();
+                let n2 = b.name.toLowerCase();
+                if (n1 < n2) {
+                    return -1;
+                }
+                if (n1 > n2) {
+                    return 1;
+                }
+                return 0;
+            });
+        }
+    };
+
     render() {
+        const { valueSort } = this.state;
+        if (valueSort) {
+            this.sortValueArr(valueSort);
+        }
         return (
             <div className="container mt-4">
                 <Breadcrumb>

@@ -251,6 +251,9 @@ class FormAddStaff extends Component {
                                         value={this.state.annuaLeave}
                                         onChange={this.handleTakeData}
                                         name="annuaLeave"
+                                        min={0}
+                                        max={12}
+                                        step={0.5}
                                     />
                                 </Col>
                             </FormGroup>
@@ -264,7 +267,7 @@ class FormAddStaff extends Component {
                                         type={'number'}
                                         className="form-control"
                                         id="overTime"
-                                        step={'0.1'}
+                                        step={'0.5'}
                                         min={0}
                                         max={5}
                                         value={this.state.overTime}

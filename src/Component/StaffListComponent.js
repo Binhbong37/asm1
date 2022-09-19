@@ -58,7 +58,6 @@ class StaffList extends Component {
     render() {
         const { isLoading } = this.props;
         let { showDesc, showNumCol, showStaffs, searchStaff } = this.state;
-        console.log(showStaffs);
         if (searchStaff) {
             showStaffs = showStaffs.filter((staff) => {
                 const lowerStaff = staff.name.toLowerCase();
