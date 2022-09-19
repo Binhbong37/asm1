@@ -11,6 +11,7 @@ import {
     BreadcrumbItem,
 } from 'reactstrap';
 import { Loading } from './Loading';
+import FormAddStaff from './FormAddStaff';
 import { deleteStaff } from '../redux/actions/actionCreatator';
 
 class DetailStaff extends Component {
@@ -19,6 +20,8 @@ class DetailStaff extends Component {
 
         this.state = {
             selectStaff: {},
+            formEdit: false,
+            staff: {},
         };
     }
     takeStaff = (data) => {
@@ -87,7 +90,14 @@ class DetailStaff extends Component {
                                 >
                                     Xóa
                                 </button>
-                                <button className="btn btn-warning">Sửa</button>
+                                <button
+                                    className="btn btn-warning"
+                                    onClick={() =>
+                                        this.handelEditStaff(staff.id)
+                                    }
+                                >
+                                    Sửa
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -116,6 +126,38 @@ class DetailStaff extends Component {
         }
     }
 
+    // Edit
+    handelEditStaff(id) {
+        if (id) {
+            const staffId = this.props.staffs.filter(
+                (staff) => staff.id === id
+            );
+            let doBFormat = dateFormat(staffId[0].doB, 'yyyy-mm-dd');
+            let startDateFormat = dateFormat(
+                staffId[0].startDate,
+                'yyyy-mm-dd'
+            );
+            let dept =
+                staffId[0].departmentId === 'Dept01'
+                    ? 'Sale'
+                    : staffId[0].departmentId === 'Dept02'
+                    ? 'HR'
+                    : staffId[0].departmentId === 'Dept03'
+                    ? 'Marketing'
+                    : staffId[0].departmentId === 'Dept04'
+                    ? 'IT'
+                    : 'Finance';
+            const newIdStaff = {
+                ...staffId[0],
+                doB: doBFormat,
+                startDate: startDateFormat,
+                departmentId: dept,
+            };
+
+            this.setState({ formEdit: true, staff: newIdStaff });
+        }
+    }
+
     render() {
         const { isLoading } = this.props;
         if (isLoading) {
@@ -128,6 +170,12 @@ class DetailStaff extends Component {
         return (
             <div className="container mb-5">
                 <div className="row">{this.takeStaff(this.props)}</div>
+                {this.state.formEdit && (
+                    <FormAddStaff
+                        closeModal={this.props.closeModal}
+                        staff={this.state.staff}
+                    />
+                )}
             </div>
         );
     }

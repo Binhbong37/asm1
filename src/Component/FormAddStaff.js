@@ -13,14 +13,15 @@ class FormAddStaff extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            doB: '',
-            startDate: '',
-            department: 'Sale',
-            annuaLeave: 1,
-            overTime: 1,
+            name: this.props.staff.name || '',
+            doB: this.props.staff.doB || '',
+            startDate: this.props.staff.startDate || '',
+            department: this.props.staff.departmentId || 'Sale',
+            annualLeave: this.props.staff.annualLeave || 1,
+            overTime: this.props.staff.overTime || 1,
             image: '/assets/images/alberto.png',
-            salaryScale: 1,
+            salaryScale: this.props.staff.salaryScale || 1,
+            IdStaff: this.props.staff.id || false,
             valid: false,
             touched: {
                 name: false,
@@ -31,8 +32,8 @@ class FormAddStaff extends Component {
         this.handelBlur = this.handelBlur.bind(this);
     }
 
-    showModal = () => {
-        this.props.toggleModal();
+    handleCloseModal = () => {
+        this.props.closeModal();
     };
 
     handleTakeData = (e) => {
@@ -46,12 +47,13 @@ class FormAddStaff extends Component {
 
     handleSubmitForm = (e) => {
         e.preventDefault();
+
         const {
             name,
             doB,
             startDate,
             department,
-            annuaLeave,
+            annualLeave,
             overTime,
             salaryScale,
             image,
@@ -65,14 +67,21 @@ class FormAddStaff extends Component {
             doB,
             startDate,
             department,
-            annuaLeave,
+            annualLeave,
             overTime,
             salaryScale,
             image,
         };
 
-        this.props.staff(newStaff);
-        this.showModal();
+        if (!this.state.IdStaff) {
+            // add
+            this.props.staff(newStaff);
+        } else {
+            // Edit
+            console.log(newStaff);
+        }
+
+        this.handleCloseModal();
     };
 
     componentDidMount() {
@@ -85,7 +94,7 @@ class FormAddStaff extends Component {
 
     handleModal = (e) => {
         if (e.keyCode === 27) {
-            this.showModal();
+            this.handleCloseModal();
         }
     };
 
@@ -121,15 +130,26 @@ class FormAddStaff extends Component {
     }
 
     render() {
-        const { name, doB, startDate } = this.state;
+        const {
+            name,
+            doB,
+            startDate,
+            annualLeave,
+            salaryScale,
+            overTime,
+            department,
+            IdStaff,
+        } = this.state;
         const errors = this.validate(name, doB, startDate);
-
         return (
             <div className="modal-form">
                 <div className="modal-container">
                     <div className="modal-header">
-                        <h3>Thêm nhân viên</h3>
-                        <div className="icon_exit" onClick={this.showModal}>
+                        <h3>{!IdStaff ? 'Thêm nhân viên' : 'Sửa nhân viên'}</h3>
+                        <div
+                            className="icon_exit"
+                            onClick={this.handleCloseModal}
+                        >
                             <i className="fa fa-times" aria-hidden="true"></i>
                         </div>
                     </div>
@@ -145,9 +165,9 @@ class FormAddStaff extends Component {
                                         className={`form-control`}
                                         id="name"
                                         name="name"
+                                        value={name}
                                         valid={errors.name === ''}
                                         invalid={errors.name !== ''}
-                                        value={this.state.name}
                                         onChange={this.handleTakeData}
                                         onBlur={this.handelBlur('name')}
                                     />
@@ -164,7 +184,7 @@ class FormAddStaff extends Component {
                                         type={'date'}
                                         className={`form-control`}
                                         id="doB"
-                                        value={this.state.doB}
+                                        value={doB}
                                         name="doB"
                                         onChange={this.handleTakeData}
                                         valid={errors.doB === ''}
@@ -184,7 +204,7 @@ class FormAddStaff extends Component {
                                         type={'date'}
                                         className="form-control"
                                         id="startDate"
-                                        value={this.state.startDate}
+                                        value={startDate}
                                         name="startDate"
                                         onChange={this.handleTakeData}
                                         onBlur={this.handelBlur('startDate')}
@@ -204,10 +224,14 @@ class FormAddStaff extends Component {
                                     <Input
                                         type="select"
                                         className="form-control"
-                                        value={this.state.department}
                                         name="department"
                                         onChange={this.handleTakeData}
                                     >
+                                        {this.state.department && (
+                                            <option value={department}>
+                                                {department}
+                                            </option>
+                                        )}
                                         <option value={'Sale'}>Sale</option>
                                         <option value={'HR'}>HR</option>
                                         <option value={'Marketing'}>
@@ -233,24 +257,24 @@ class FormAddStaff extends Component {
                                         step={'0.01'}
                                         min={0}
                                         max={5}
-                                        value={this.state.salaryScale}
+                                        value={salaryScale}
                                         onChange={this.handleTakeData}
                                         name="salaryScale"
                                     />
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
-                                <Label md={2} htmlFor="annuaLeave">
+                                <Label md={2} htmlFor="annualLeave">
                                     Số ngày nghỉ còn lại
                                 </Label>
                                 <Col md={9}>
                                     <Input
                                         type={'number'}
                                         className="form-control"
-                                        id="annuaLeave"
-                                        value={this.state.annuaLeave}
+                                        id="annualLeave"
+                                        value={annualLeave}
                                         onChange={this.handleTakeData}
-                                        name="annuaLeave"
+                                        name="annualLeave"
                                         min={0}
                                         max={12}
                                         step={0.5}
@@ -269,8 +293,8 @@ class FormAddStaff extends Component {
                                         id="overTime"
                                         step={'0.5'}
                                         min={0}
-                                        max={5}
-                                        value={this.state.overTime}
+                                        max={20}
+                                        value={overTime}
                                         onChange={this.handleTakeData}
                                         name="overTime"
                                     />
@@ -279,8 +303,11 @@ class FormAddStaff extends Component {
 
                             <FormGroup row>
                                 <Col md={{ size: 10, offset: 2 }}>
-                                    <Button type="sumbmit" color="primary">
-                                        Add
+                                    <Button
+                                        type="sumbmit"
+                                        color={!IdStaff ? 'primary' : 'danger'}
+                                    >
+                                        {!IdStaff ? 'Add' : 'Update'}
                                     </Button>
                                 </Col>
                             </FormGroup>

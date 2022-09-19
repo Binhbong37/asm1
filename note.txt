@@ -27,3 +27,7 @@ bên salary vẫn còn
 - Theo salary (A-Z, Z-A)
 - Theo name (A-Z, Z-A)
 
+9. Sửa nhân viên
+- Thêm được logic để lấy dữ liệu từ add và edit
+- Cần xem lại code (nó rác quá)
+

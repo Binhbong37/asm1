@@ -21,11 +21,18 @@ import StaffList from './Component/StaffListComponent';
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            showForm: false,
+        };
     }
 
     addStaff = (staff) => {
         this.props.addStafff(staff);
+    };
+
+    // toggleModal
+    closeModal = () => {
+        this.setState({ showForm: false });
     };
 
     componentDidMount() {
@@ -51,6 +58,8 @@ class App extends Component {
                                         staffs={staffs}
                                         isLoading={isLoading}
                                         addStaff={this.addStaff}
+                                        showForm={this.state.showForm}
+                                        closeModal={this.closeModal}
                                     />
                                 )}
                             />
@@ -61,6 +70,8 @@ class App extends Component {
                                     <DetailStaff
                                         isLoading={isLoading}
                                         staffs={staffs}
+                                        showForm={this.state.showForm}
+                                        closeModal={this.closeModal}
                                     />
                                 )}
                             />

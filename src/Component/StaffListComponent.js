@@ -12,8 +12,8 @@ class StaffList extends Component {
         this.state = {
             showNumCol: 1,
             showDesc: true,
-            selectStaff: null,
             showFormAdd: false,
+            selectStaff: null,
             showStaffs: this.props.staffs,
             searchStaff: '',
         };
@@ -30,11 +30,6 @@ class StaffList extends Component {
 
     handleSubmit = (textSearch) => {
         this.setState({ searchStaff: textSearch });
-    };
-
-    // toggleModal
-    toggleModal = () => {
-        this.setState({ showFormAdd: false });
     };
 
     // add staff
@@ -147,7 +142,7 @@ class StaffList extends Component {
                     {this.state.showFormAdd && (
                         <FormAddStaff
                             staff={this.addStaff}
-                            toggleModal={this.toggleModal}
+                            closeModal={this.props.closeModal}
                             resetFormAddStaff={this.props.resetFormAddStaff}
                         />
                     )}
