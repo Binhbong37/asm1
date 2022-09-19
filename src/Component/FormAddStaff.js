@@ -1,4 +1,13 @@
 import React, { Component } from 'react';
+import {
+    Form,
+    FormFeedback,
+    Col,
+    Input,
+    FormGroup,
+    Label,
+    Button,
+} from 'reactstrap';
 
 class FormAddStaff extends Component {
     constructor(props) {
@@ -12,8 +21,14 @@ class FormAddStaff extends Component {
             overTime: 1,
             salary: 1,
             image: '/assets/images/alberto.png',
-            validateName: false,
+            valid: false,
+            touched: {
+                name: false,
+                doB: false,
+                startDate: false,
+            },
         };
+        this.handelBlur = this.handelBlur.bind(this);
     }
 
     showModal = () => {
@@ -31,13 +46,14 @@ class FormAddStaff extends Component {
 
     handleSubmitForm = (e) => {
         e.preventDefault();
-        if (!this.state.name) {
-            this.setState({
-                validateName: true,
-            });
+        const { name, doB, startDate } = this.state;
+        if (!name || !doB || !startDate) {
+            this.setState({ valid: true });
             return;
         }
-        this.props.staff(this.state);
+        console.log(this.state);
+
+        // this.props.staff(this.state);
         this.showModal();
     };
 
@@ -55,7 +71,41 @@ class FormAddStaff extends Component {
         }
     };
 
+    handelBlur = (field) => (evt) => {
+        this.setState({
+            touched: {
+                ...this.state.touched,
+                [field]: true,
+            },
+        });
+    };
+
+    validate(name, doB, startDate) {
+        const errors = {
+            name: '',
+            doB: '',
+            startDate: '',
+        };
+
+        if (this.state.touched.name && name.length < 3)
+            errors.name = 'Name is >= 3 character';
+        else if (this.state.touched.name && name.length > 20)
+            errors.name = 'Name is <= 20 character';
+        else if (this.state.valid && !name) errors.name = 'Name is requried!';
+        if (this.state.touched.doB && !doB) errors.doB = 'doB is requried';
+        else if (this.state.valid && !doB) errors.doB = 'Dob is requried!';
+        if (this.state.touched.startDate && !startDate)
+            errors.startDate = 'StartDate is requried';
+        else if (this.state.valid && !startDate)
+            errors.startDate = 'Startdate is requried!';
+
+        return errors;
+    }
+
     render() {
+        const { name, doB, startDate } = this.state;
+        const errors = this.validate(name, doB, startDate);
+
         return (
             <div className="modal-form">
                 <div className="modal-container">
@@ -66,118 +116,154 @@ class FormAddStaff extends Component {
                         </div>
                     </div>
                     <div className="modal-body">
-                        <form onSubmit={this.handleSubmitForm}>
-                            <div className="form-group">
-                                <label htmlFor="name">Tên</label>
-                                <input
-                                    type={'text'}
-                                    className={`form-control ${
-                                        this.state.validateName && 'is-invalid'
-                                    }`}
-                                    id="name"
-                                    name="name"
-                                    value={this.state.name}
-                                    onChange={this.handleTakeData}
-                                />
-                            </div>
-                            {this.state.validateName && (
-                                <div className="invalidFeedback center">
-                                    Name is requried!
-                                </div>
-                            )}
-                            <div className="form-group">
-                                <label htmlFor="doB">Ngày sinh</label>
-                                <input
-                                    type={'date'}
-                                    className="form-control"
-                                    id="doB"
-                                    value={this.state.doB}
-                                    name="doB"
-                                    onChange={this.handleTakeData}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="startDate">
+                        <Form onSubmit={this.handleSubmitForm}>
+                            <FormGroup row>
+                                <Label md={2} htmlFor="name">
+                                    Tên
+                                </Label>
+                                <Col md={9}>
+                                    <Input
+                                        type={'text'}
+                                        className={`form-control`}
+                                        id="name"
+                                        name="name"
+                                        valid={errors.name === ''}
+                                        invalid={errors.name !== ''}
+                                        value={this.state.name}
+                                        onChange={this.handleTakeData}
+                                        onBlur={this.handelBlur('name')}
+                                    />
+                                    <FormFeedback>{errors.name}</FormFeedback>
+                                </Col>
+                            </FormGroup>
+
+                            <FormGroup row>
+                                <Label md={2} htmlFor="doB">
+                                    Ngày sinh
+                                </Label>
+                                <Col md={9}>
+                                    <Input
+                                        type={'date'}
+                                        className={`form-control`}
+                                        id="doB"
+                                        value={this.state.doB}
+                                        name="doB"
+                                        onChange={this.handleTakeData}
+                                        valid={errors.doB === ''}
+                                        invalid={errors.doB !== ''}
+                                        onBlur={this.handelBlur('doB')}
+                                    />
+                                    <FormFeedback>{errors.doB}</FormFeedback>
+                                </Col>
+                            </FormGroup>
+
+                            <FormGroup row>
+                                <Label md={2} htmlFor="startDate">
                                     Ngày vào công ty
-                                </label>
-                                <input
-                                    type={'date'}
-                                    className="form-control"
-                                    id="startDate"
-                                    value={this.state.startDate}
-                                    name="startDate"
-                                    onChange={this.handleTakeData}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="humanR">Phòng ban</label>
-                                <select
-                                    className="form-control"
-                                    value={this.state.department}
-                                    name="department"
-                                    onChange={this.handleTakeData}
-                                >
-                                    <option value={'Sale'}>Sale</option>
-                                    <option value={'HR'}>HR</option>
-                                    <option value={'Marketing'}>
-                                        Marketing
-                                    </option>
-                                    <option value={'IT'}>IT</option>
-                                    <option value={'Finance'}>Finance</option>
-                                </select>
-                            </div>
+                                </Label>
+                                <Col md={9}>
+                                    <Input
+                                        type={'date'}
+                                        className="form-control"
+                                        id="startDate"
+                                        value={this.state.startDate}
+                                        name="startDate"
+                                        onChange={this.handleTakeData}
+                                        onBlur={this.handelBlur('startDate')}
+                                        valid={errors.startDate === ''}
+                                        invalid={errors.startDate !== ''}
+                                    />
+                                    <FormFeedback>
+                                        {errors.startDate}
+                                    </FormFeedback>
+                                </Col>
+                            </FormGroup>
+                            <FormGroup row>
+                                <Label md={2} htmlFor="humanR">
+                                    Phòng ban
+                                </Label>
+                                <Col md={9}>
+                                    <Input
+                                        type="select"
+                                        className="form-control"
+                                        value={this.state.department}
+                                        name="department"
+                                        onChange={this.handleTakeData}
+                                    >
+                                        <option value={'Sale'}>Sale</option>
+                                        <option value={'HR'}>HR</option>
+                                        <option value={'Marketing'}>
+                                            Marketing
+                                        </option>
+                                        <option value={'IT'}>IT</option>
+                                        <option value={'Finance'}>
+                                            Finance
+                                        </option>
+                                    </Input>
+                                </Col>
+                            </FormGroup>
 
-                            <div className="form-group">
-                                <label htmlFor="salaryScale">Hệ số lương</label>
-                                <input
-                                    type={'number'}
-                                    className="form-control"
-                                    id="salaryScale"
-                                    step={'0.01'}
-                                    min={0}
-                                    max={5}
-                                    value={this.state.salary}
-                                    onChange={this.handleTakeData}
-                                    name="salary"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="annuaLeave">
+                            <FormGroup row>
+                                <Label md={2} htmlFor="salaryScale">
+                                    Hệ số lương
+                                </Label>
+                                <Col md={9}>
+                                    <Input
+                                        type={'number'}
+                                        className="form-control"
+                                        id="salaryScale"
+                                        step={'0.01'}
+                                        min={0}
+                                        max={5}
+                                        value={this.state.salary}
+                                        onChange={this.handleTakeData}
+                                        name="salary"
+                                    />
+                                </Col>
+                            </FormGroup>
+                            <FormGroup row>
+                                <Label md={2} htmlFor="annuaLeave">
                                     Số ngày nghỉ còn lại
-                                </label>
-                                <input
-                                    type={'number'}
-                                    className="form-control"
-                                    id="annuaLeave"
-                                    value={this.state.annuaLeave}
-                                    onChange={this.handleTakeData}
-                                    name="annuaLeave"
-                                />
-                            </div>
+                                </Label>
+                                <Col md={9}>
+                                    <Input
+                                        type={'number'}
+                                        className="form-control"
+                                        id="annuaLeave"
+                                        value={this.state.annuaLeave}
+                                        onChange={this.handleTakeData}
+                                        name="annuaLeave"
+                                    />
+                                </Col>
+                            </FormGroup>
 
-                            <div className="form-group">
-                                <label htmlFor="overTime">
+                            <FormGroup row>
+                                <Label md={2} htmlFor="overTime">
                                     Số ngày đã làm thêm
-                                </label>
-                                <input
-                                    type={'number'}
-                                    className="form-control"
-                                    id="overTime"
-                                    step={'0.1'}
-                                    min={0}
-                                    max={5}
-                                    value={this.state.overTime}
-                                    onChange={this.handleTakeData}
-                                    name="overTime"
-                                />
-                            </div>
+                                </Label>
+                                <Col md={9}>
+                                    <Input
+                                        type={'number'}
+                                        className="form-control"
+                                        id="overTime"
+                                        step={'0.1'}
+                                        min={0}
+                                        max={5}
+                                        value={this.state.overTime}
+                                        onChange={this.handleTakeData}
+                                        name="overTime"
+                                    />
+                                </Col>
+                            </FormGroup>
 
-                            <div className="btn-add">
-                                <button className="btn btn-primary">
-                                    Thêm
-                                </button>
-                            </div>
-                        </form>
+                            <FormGroup row>
+                                <Col md={{ size: 10, offset: 2 }}>
+                                    <Button type="sumbmit" color="primary">
+                                        Add
+                                    </Button>
+                                </Col>
+                            </FormGroup>
+                        </Form>
                     </div>
                 </div>
             </div>
