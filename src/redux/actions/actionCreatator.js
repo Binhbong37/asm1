@@ -198,6 +198,7 @@ export const salaryFailed = (errMess) => {
 
 // THÊM NHÂN VIÊN
 export const addStafff = (staff) => (dispatch) => {
+    const salary = staff.salaryScale * 3000000 + staff.overTime * 200000;
     const newStaff = {
         id: staff.id,
         name: staff.name,
@@ -216,11 +217,9 @@ export const addStafff = (staff) => (dispatch) => {
                 : 'Dept05',
         annualLeave: staff.annualLeave,
         overTime: staff.overTime,
+        salary: Number(salary),
         image: staff.image,
-        salary: 60000,
     };
-
-    newStaff.date = new Date().toISOString();
 
     return fetch(baseUrl + 'staffs', {
         method: 'POST',
@@ -248,7 +247,8 @@ export const addStafff = (staff) => (dispatch) => {
         .then((response) => response.json())
         .then((response) => {
             dispatch(addStaffs(response));
-            dispatch(addSalary(response));
+            dispatch(fetchSalary(response));
+            dispatch(fetchDepartment(response));
         })
         .catch((error) => {
             console.log('post staffs', error.message);

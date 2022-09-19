@@ -20,4 +20,6 @@ bên salary vẫn còn
 - Lưu ý kiểu search (để ở phần render ) TH này là lấy hết dữ liệu ra rồi search
 
 7. validate form (done)
-- Lấy dữ liệu đi để lưu vào db
+- Gửi dữ liệu đi để lưu vào db
+- Gửi dữ liệu đi rồi fetch lại, thì nó mới hiện đúng thứ tự
+

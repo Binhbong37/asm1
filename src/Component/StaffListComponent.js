@@ -39,15 +39,16 @@ class StaffList extends Component {
 
     // add staff
     addStaff = (staff) => {
+        const id = Date.now().toString(36);
         const newStaff = {
-            id: this.props.staffs.length + 1,
+            id: id,
             name: staff.name,
             doB: staff.doB,
-            salaryScale: staff.salary,
+            salaryScale: Number(staff.salaryScale),
             startDate: staff.startDate,
             department: staff.department,
-            annualLeave: staff.annuaLeave,
-            overTime: staff.overTime,
+            annualLeave: Number(staff.annuaLeave),
+            overTime: Number(staff.overTime),
             image: '/assets/images/alberto.png',
         };
 
@@ -57,6 +58,7 @@ class StaffList extends Component {
     render() {
         const { isLoading } = this.props;
         let { showDesc, showNumCol, showStaffs, searchStaff } = this.state;
+        console.log(showStaffs);
         if (searchStaff) {
             showStaffs = showStaffs.filter((staff) => {
                 const lowerStaff = staff.name.toLowerCase();

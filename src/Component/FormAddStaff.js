@@ -19,8 +19,8 @@ class FormAddStaff extends Component {
             department: 'Sale',
             annuaLeave: 1,
             overTime: 1,
-            salary: 1,
             image: '/assets/images/alberto.png',
+            salaryScale: 1,
             valid: false,
             touched: {
                 name: false,
@@ -46,14 +46,32 @@ class FormAddStaff extends Component {
 
     handleSubmitForm = (e) => {
         e.preventDefault();
-        const { name, doB, startDate } = this.state;
+        const {
+            name,
+            doB,
+            startDate,
+            department,
+            annuaLeave,
+            overTime,
+            salaryScale,
+            image,
+        } = this.state;
         if (!name || !doB || !startDate) {
             this.setState({ valid: true });
             return;
         }
-        console.log(this.state);
+        const newStaff = {
+            name,
+            doB,
+            startDate,
+            department,
+            annuaLeave,
+            overTime,
+            salaryScale,
+            image,
+        };
 
-        // this.props.staff(this.state);
+        this.props.staff(newStaff);
         this.showModal();
     };
 
@@ -215,9 +233,9 @@ class FormAddStaff extends Component {
                                         step={'0.01'}
                                         min={0}
                                         max={5}
-                                        value={this.state.salary}
+                                        value={this.state.salaryScale}
                                         onChange={this.handleTakeData}
-                                        name="salary"
+                                        name="salaryScale"
                                     />
                                 </Col>
                             </FormGroup>
