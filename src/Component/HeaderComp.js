@@ -65,15 +65,6 @@ class Header extends Component {
                                         Bảng lương
                                     </NavLink>
                                 </NavItem>
-                                <NavItem onClick={this.hanleCloseNav}>
-                                    <NavLink
-                                        className="nav-link"
-                                        to="/form-Login"
-                                    >
-                                        <span className="fa fa-sign-in fa-lg"></span>{' '}
-                                        Login
-                                    </NavLink>
-                                </NavItem>
                             </Nav>
                         </Collapse>
                     </div>

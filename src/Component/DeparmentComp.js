@@ -1,5 +1,12 @@
 import React from 'react';
-import { Card, CardTitle, CardText } from 'reactstrap';
+import { Link } from 'react-router-dom';
+import {
+    Card,
+    CardTitle,
+    CardText,
+    Breadcrumb,
+    BreadcrumbItem,
+} from 'reactstrap';
 
 import { Loading } from './Loading';
 
@@ -13,7 +20,14 @@ const Deparment = ({ dept }) => {
         );
     } else {
         return (
-            <div className="container-fluid mt-5">
+            <div className="container-fluid mt-3">
+                <Breadcrumb style={{ marginLeft: '14px' }}>
+                    <BreadcrumbItem>
+                        <Link to={'/'}>Nhân viên</Link>
+                    </BreadcrumbItem>
+                    <BreadcrumbItem active>Phòng ban</BreadcrumbItem>
+                </Breadcrumb>
+
                 <div className="row">
                     {dept.dept.map((depar) => {
                         return (

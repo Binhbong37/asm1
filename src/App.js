@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import {
-    fetchStaff,
-    fetchDepartment,
-    fetchSalary,
     addStafff,
     editStaff,
+    fetchDepartment,
+    fetchSalary,
+    fetchStaff,
 } from './redux/actions/actionCreatator';
 
 import './App.css';
 import Deparment from './Component/DeparmentComp';
 import DetailStaff from './Component/DetailStaff';
 import Footer from './Component/FooterComp';
-import FormLogin from './Component/FormLogin';
 import Header from './Component/HeaderComp';
 import NotFoundRoute from './Component/NotFoundRoute';
 import SaralyComp from './Component/SaralyComp';
@@ -95,7 +94,7 @@ class App extends Component {
                                     <SaralyComp salary={this.props.salary} />
                                 )}
                             />
-                            <Route path={'/form-login'} component={FormLogin} />
+
                             <Route path={'*'} component={NotFoundRoute} />
                         </Switch>
                     </div>
