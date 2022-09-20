@@ -40,7 +40,6 @@ export const addStaffs = (staff) => ({
     payload: staff,
 });
 
-// delete
 // XÓA NHÂN VIÊN
 export const deleteStaff = (id) => (dispatch) => {
     return fetch(baseUrl + 'staffs/' + id, {
@@ -64,8 +63,9 @@ export const deleteStaff = (id) => (dispatch) => {
         )
         .then((response) => response.json())
         .then((response) => {
-            dispatch(addStaffs(response));
-            dispatch(addSalary(response));
+            dispatch(fetchStaff(response));
+            dispatch(fetchSalary(response));
+            dispatch(fetchDepartment(response));
         })
         .catch((error) => {
             console.log('delete staffs', error.message);
@@ -246,7 +246,67 @@ export const addStafff = (staff) => (dispatch) => {
         )
         .then((response) => response.json())
         .then((response) => {
-            dispatch(addStaffs(response));
+            dispatch(fetchStaff(response));
+            dispatch(fetchSalary(response));
+            dispatch(fetchDepartment(response));
+        })
+        .catch((error) => {
+            console.log('post staffs', error.message);
+            alert(
+                'Your staff information could not be posted\nError: ' +
+                    error.message
+            );
+        });
+};
+
+// SỬA NHÂN VIÊN
+export const editStaff = (staff) => (dispatch) => {
+    const newStaff = {
+        id: staff.id,
+        name: staff.name,
+        doB: staff.doB,
+        salaryScale: staff.salaryScale,
+        startDate: staff.startDate,
+        departmentId:
+            staff.department === 'Sale'
+                ? 'Dept01'
+                : staff.department === 'HR'
+                ? 'Dept02'
+                : staff.department === 'Marketing'
+                ? 'Dept03'
+                : staff.department === 'IT'
+                ? 'Dept04'
+                : 'Dept05',
+        annualLeave: staff.annualLeave,
+        overTime: staff.overTime,
+    };
+
+    return fetch(baseUrl + 'staffs', {
+        method: 'PATCH',
+        body: JSON.stringify(newStaff),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(
+            (response) => {
+                if (response.ok) {
+                    return response;
+                } else {
+                    var error = new Error(
+                        'Error ' + response.status + ': ' + response.statusText
+                    );
+                    error.response = response;
+                    throw error;
+                }
+            },
+            (error) => {
+                throw error;
+            }
+        )
+        .then((response) => response.json())
+        .then((response) => {
+            dispatch(fetchStaff(response));
             dispatch(fetchSalary(response));
             dispatch(fetchDepartment(response));
         })

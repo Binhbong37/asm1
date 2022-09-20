@@ -6,6 +6,7 @@ import {
     fetchDepartment,
     fetchSalary,
     addStafff,
+    editStaff,
 } from './redux/actions/actionCreatator';
 
 import './App.css';
@@ -28,6 +29,10 @@ class App extends Component {
 
     addStaff = (staff) => {
         this.props.addStafff(staff);
+    };
+
+    editStaff = (staff) => {
+        this.props.editStaff(staff);
     };
 
     // toggleModal
@@ -72,6 +77,7 @@ class App extends Component {
                                         staffs={staffs}
                                         showForm={this.state.showForm}
                                         closeModal={this.closeModal}
+                                        editStaff={this.editStaff}
                                     />
                                 )}
                             />
@@ -114,6 +120,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchDepartment: () => dispatch(fetchDepartment()),
         fetchSalary: () => dispatch(fetchSalary()),
         addStafff: (staff) => dispatch(addStafff(staff)),
+        editStaff: (staff) => dispatch(editStaff(staff)),
     };
 };
 

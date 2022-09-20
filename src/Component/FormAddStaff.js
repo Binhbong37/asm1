@@ -78,7 +78,8 @@ class FormAddStaff extends Component {
             this.props.staff(newStaff);
         } else {
             // Edit
-            console.log(newStaff);
+            newStaff.id = this.state.IdStaff;
+            this.props.editStaff(newStaff);
         }
 
         this.handleCloseModal();

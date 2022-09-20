@@ -174,6 +174,7 @@ class DetailStaff extends Component {
                     <FormAddStaff
                         closeModal={this.props.closeModal}
                         staff={this.state.staff}
+                        editStaff={this.props.editStaff}
                     />
                 )}
             </div>
