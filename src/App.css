@@ -68,7 +68,7 @@ label {
 
 .footer {
     background-color: #d1c4e9;
-    margin: 0px auto;
+    margin-top: auto;
     padding: 20px 0px 20px 0px;
 }
 .jumbotron {
@@ -127,9 +127,9 @@ address {
 }
 
 .layoutfull {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-content: space-between;
 }
 
 .centerBlock {

@@ -30,4 +30,5 @@ bên salary vẫn còn
 9. Sửa nhân viên
 - Thêm được logic để lấy dữ liệu từ add và edit
 - Cần xem lại code (nó rác quá)
+- Gửi lên url xong, nó giống với post chỉ thay method
 
