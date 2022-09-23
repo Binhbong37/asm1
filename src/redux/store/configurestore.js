@@ -1,10 +1,9 @@
-import { combineReducers, createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
 import logger from 'redux-logger';
-import { Staffs } from '../reducer/staff';
+import thunk from 'redux-thunk';
 import { Dept } from '../reducer/department';
 import { Salary } from '../reducer/salary';
-import { StaffOfDeparts } from '../reducer/staffOfDept';
+import { Staffs } from '../reducer/staff';
 
 export const configureStore = () => {
     const store = createStore(
@@ -12,7 +11,6 @@ export const configureStore = () => {
             staffs: Staffs,
             dept: Dept,
             salary: Salary,
-            staffofdept: StaffOfDeparts,
         }),
         window.__REDUX_DEVTOOLS_EXTENSION__ &&
             window.__REDUX_DEVTOOLS_EXTENSION__(),

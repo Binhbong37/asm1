@@ -21,7 +21,7 @@ const Deparment = ({ dept }) => {
     } else {
         return (
             <div className="container-fluid mt-3">
-                <Breadcrumb style={{ marginLeft: '14px' }}>
+                <Breadcrumb>
                     <BreadcrumbItem>
                         <Link to={'/'}>Nhân viên</Link>
                     </BreadcrumbItem>
@@ -35,15 +35,20 @@ const Deparment = ({ dept }) => {
                                 key={depar.id}
                                 className="col-12 col-sm-6 col-md-4 my-2"
                             >
-                                <Card className="p-3">
-                                    <CardTitle tag={'h3'}>
-                                        {depar.name}
-                                    </CardTitle>
-                                    <CardText>
-                                        Số lượng nhân viên:{' '}
-                                        {depar.numberOfStaff}
-                                    </CardText>
-                                </Card>
+                                <Link
+                                    to={`phong-ban/${depar.id}`}
+                                    className="phongBan"
+                                >
+                                    <Card className="p-3">
+                                        <CardTitle tag={'h3'}>
+                                            {depar.name}
+                                        </CardTitle>
+                                        <CardText>
+                                            Số lượng nhân viên:{' '}
+                                            {depar.numberOfStaff}
+                                        </CardText>
+                                    </Card>
+                                </Link>
                             </div>
                         );
                     })}

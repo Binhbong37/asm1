@@ -22,16 +22,16 @@ function Footer() {
                 <div className="col-7 col-sm-4">
                     <h5>Địa chỉ của chúng tôi</h5>
                     <address>
-                        121, Clear Water Bay Road Clear Water Bay, Kowloon HONG
-                        KONG
+                        89, đường Thạnh Mỹ Lợi, phường Thạnh Mỹ Lợi, Tp.Thủ Đức,
+                        Tp.HCM
                         <br />
-                        <i className="fa fa-phone fa-lg"></i>: +852 1234 5678
+                        <i className="fa fa-phone fa-lg"></i>: +84 388 149 657
                         <br />
-                        <i className="fa fa-fax fa-lg"></i>: +852 8765 4321
+                        <i className="fa fa-fax fa-lg"></i>: +84 388 149 657
                         <br />
                         <i className="fa fa-envelope fa-lg"></i>:{' '}
-                        <a href="mailto:confusion@food.net">
-                            confusion@food.net
+                        <a href="mailto:hoangvanbinht37@gmai.com">
+                            hoangvanbinht37@gmai.com
                         </a>
                     </address>
                 </div>

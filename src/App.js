@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import {
     addStafff,
     editStaff,
@@ -17,6 +17,7 @@ import Header from './Component/HeaderComp';
 import NotFoundRoute from './Component/NotFoundRoute';
 import SaralyComp from './Component/SaralyComp';
 import StaffList from './Component/StaffListComponent';
+import DepartmentDetail from './Component/DepartmentDetail';
 
 class App extends Component {
     constructor(props) {
@@ -44,12 +45,11 @@ class App extends Component {
         this.props.fetchDepartment();
         this.props.fetchSalary();
     }
-
     render() {
         const { isLoading, staffs } = this.props.stafffs;
 
         return (
-            <BrowserRouter>
+            <Fragment>
                 <div className="layoutfull">
                     <Header />
                     <div className="centerBlock">
@@ -82,11 +82,17 @@ class App extends Component {
                             />
                             <Route
                                 exact
+                                path={'/phong-ban/:dept'}
+                                component={() => <DepartmentDetail />}
+                            />
+                            <Route
+                                exact
                                 path={'/phong-ban'}
                                 component={() => (
                                     <Deparment dept={this.props.dept} />
                                 )}
                             />
+
                             <Route
                                 exact
                                 path={'/bang-luong'}
@@ -100,7 +106,7 @@ class App extends Component {
                     </div>
                     <Footer />
                 </div>
-            </BrowserRouter>
+            </Fragment>
         );
     }
 }
@@ -110,6 +116,7 @@ const mapStateToProps = (state) => {
         stafffs: state.staffs,
         dept: state.dept,
         salary: state.salary,
+        deptId: state.staffofdept,
     };
 };
 
@@ -123,4 +130,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

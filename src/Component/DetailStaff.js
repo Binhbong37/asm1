@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import dateFormat from 'dateformat';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -41,67 +41,73 @@ class DetailStaff extends Component {
             const startDateFormat = dateFormat(startDate, 'dd/mm/yyyy');
             const doBFormat = dateFormat(doB, 'dd/mm/yyyy');
             return (
-                <>
-                    <Breadcrumb className="mt-3">
+                <Fragment>
+                    <Breadcrumb>
                         <BreadcrumbItem>
                             <Link to="/">Nhân viên</Link>
                         </BreadcrumbItem>
                         <BreadcrumbItem active>{name || 'HV'}</BreadcrumbItem>
                     </Breadcrumb>
-                    <div className="col-12 col-md-4">
-                        <Card>
-                            <CardImg
-                                width={'100%'}
-                                src={image}
-                                alt={name || 'HV'}
-                            />
-                        </Card>
-                    </div>
-                    <div className="col-12 col-md-8">
-                        <div className="p-4">
-                            <CardTitle tag={'h4'}>Họ và tên: {name}</CardTitle>
-                            <CardText>Ngày sinh: {doBFormat}</CardText>
-                            <CardText>
-                                Ngày bắt đầu làm việc: {startDateFormat}
-                            </CardText>
-                            <CardText>
-                                Phòng ban:{' '}
-                                {staff.departmentId === 'Dept01'
-                                    ? 'Sale'
-                                    : staff.departmentId === 'Dept02'
-                                    ? 'HR'
-                                    : staff.departmentId === 'Dept03'
-                                    ? 'Marketing'
-                                    : staff.departmentId === 'Dept04'
-                                    ? 'IT'
-                                    : 'Finance'}
-                            </CardText>
-                            <CardText>
-                                Số ngày nghỉ còn lại: {annualLeave}
-                            </CardText>
-                            <CardText>Số ngày đã làm thêm: {overTime}</CardText>
+                    <div className="row">
+                        <div className="col-12 col-md-4">
+                            <Card>
+                                <CardImg
+                                    width={'100%'}
+                                    src={image}
+                                    alt={name || 'HV'}
+                                />
+                            </Card>
+                        </div>
+                        <div className="col-12 col-md-8">
+                            <div className="p-4">
+                                <CardTitle tag={'h4'}>
+                                    Họ và tên: {name}
+                                </CardTitle>
+                                <CardText>Ngày sinh: {doBFormat}</CardText>
+                                <CardText>
+                                    Ngày bắt đầu làm việc: {startDateFormat}
+                                </CardText>
+                                <CardText>
+                                    Phòng ban:{' '}
+                                    {staff.departmentId === 'Dept01'
+                                        ? 'Sale'
+                                        : staff.departmentId === 'Dept02'
+                                        ? 'HR'
+                                        : staff.departmentId === 'Dept03'
+                                        ? 'Marketing'
+                                        : staff.departmentId === 'Dept04'
+                                        ? 'IT'
+                                        : 'Finance'}
+                                </CardText>
+                                <CardText>
+                                    Số ngày nghỉ còn lại: {annualLeave}
+                                </CardText>
+                                <CardText>
+                                    Số ngày đã làm thêm: {overTime}
+                                </CardText>
 
-                            <div className="mt-5">
-                                <button
-                                    onClick={() =>
-                                        this.handleDeleteStaff(staff.id)
-                                    }
-                                    className="btn btn-danger"
-                                >
-                                    Xóa
-                                </button>
-                                <button
-                                    className="btn btn-warning"
-                                    onClick={() =>
-                                        this.handelEditStaff(staff.id)
-                                    }
-                                >
-                                    Sửa
-                                </button>
+                                <div className="mt-5">
+                                    <button
+                                        onClick={() =>
+                                            this.handleDeleteStaff(staff.id)
+                                        }
+                                        className="btn btn-danger"
+                                    >
+                                        Xóa
+                                    </button>
+                                    <button
+                                        className="btn btn-warning"
+                                        onClick={() =>
+                                            this.handelEditStaff(staff.id)
+                                        }
+                                    >
+                                        Sửa
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </>
+                </Fragment>
             );
         } else {
             return (
@@ -120,6 +126,7 @@ class DetailStaff extends Component {
     handleDeleteStaff(idStaff) {
         if (window.confirm('Bạn chắc chắn muốn xóa nhân viên này ?')) {
             this.props.deleteStaffID(idStaff);
+            alert('Xóa thành công nhân viên');
             this.props.history.push('/');
         } else {
             console.log('k xoa');
@@ -168,8 +175,8 @@ class DetailStaff extends Component {
             );
         }
         return (
-            <div className="container mb-5">
-                <div className="row">{this.takeStaff(this.props)}</div>
+            <div className="container-fluid mb-3">
+                <Fragment>{this.takeStaff(this.props)}</Fragment>
                 {this.state.formEdit && (
                     <FormAddStaff
                         closeModal={this.props.closeModal}

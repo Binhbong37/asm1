@@ -10,6 +10,10 @@ a:hover {
     color: #0056b3;
     text-decoration: underline;
 }
+
+.phongBan {
+    color: #000;
+}
 .card-title {
     text-align: left;
 }
@@ -134,6 +138,10 @@ address {
 
 .centerBlock {
     flex: 1;
+}
+
+.breadcrumb {
+    background-color: unset;
 }
 
 .breadcrumb-item {

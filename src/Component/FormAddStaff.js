@@ -76,12 +76,13 @@ class FormAddStaff extends Component {
         if (!this.state.IdStaff) {
             // add
             this.props.staff(newStaff);
+            alert('Thêm thành công nhân viên mới');
         } else {
             // Edit
             newStaff.id = this.state.IdStaff;
             this.props.editStaff(newStaff);
+            alert('Cập nhật thành công nhân viên');
         }
-
         this.handleCloseModal();
     };
 
