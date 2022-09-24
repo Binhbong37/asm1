@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import {
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
     Form,
     FormFeedback,
     Col,
@@ -13,6 +17,8 @@ class FormAddStaff extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            modal: true,
+            backdrop: true,
             name: this.props.staff.name || '',
             doB: this.props.staff.doB || '',
             startDate: this.props.staff.startDate || '',
@@ -32,8 +38,11 @@ class FormAddStaff extends Component {
         this.handelBlur = this.handelBlur.bind(this);
     }
 
-    handleCloseModal = () => {
-        this.props.closeModal();
+    toggle = () => {
+        this.props.showFormAdd(false);
+        this.setState({
+            modal: !this.state.modal,
+        });
     };
 
     handleTakeData = (e) => {
@@ -76,6 +85,7 @@ class FormAddStaff extends Component {
         if (!this.state.IdStaff) {
             // add
             this.props.staff(newStaff);
+
             alert('Thêm thành công nhân viên mới');
         } else {
             // Edit
@@ -83,21 +93,7 @@ class FormAddStaff extends Component {
             this.props.editStaff(newStaff);
             alert('Cập nhật thành công nhân viên');
         }
-        this.handleCloseModal();
-    };
-
-    componentDidMount() {
-        document.addEventListener('keydown', this.handleModal);
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleModal);
-    }
-
-    handleModal = (e) => {
-        if (e.keyCode === 27) {
-            this.handleCloseModal();
-        }
+        this.toggle();
     };
 
     handelBlur = (field) => (evt) => {
@@ -144,179 +140,165 @@ class FormAddStaff extends Component {
         } = this.state;
         const errors = this.validate(name, doB, startDate);
         return (
-            <div className="modal-form">
-                <div className="modal-container">
-                    <div className="modal-header">
-                        <h3>{!IdStaff ? 'Thêm nhân viên' : 'Sửa nhân viên'}</h3>
-                        <div
-                            className="icon_exit"
-                            onClick={this.handleCloseModal}
-                        >
-                            <i className="fa fa-times" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                    <div className="modal-body">
-                        <Form onSubmit={this.handleSubmitForm}>
-                            <FormGroup row>
-                                <Label md={2} htmlFor="name">
-                                    Tên
-                                </Label>
-                                <Col md={9}>
-                                    <Input
-                                        type={'text'}
-                                        className={`form-control`}
-                                        id="name"
-                                        name="name"
-                                        value={name}
-                                        valid={errors.name === ''}
-                                        invalid={errors.name !== ''}
-                                        onChange={this.handleTakeData}
-                                        onBlur={this.handelBlur('name')}
-                                    />
-                                    <FormFeedback>{errors.name}</FormFeedback>
-                                </Col>
-                            </FormGroup>
+            <Modal isOpen={this.state.modal} toggle={this.toggle}>
+                <ModalHeader toggle={this.toggle}>
+                    {!IdStaff ? 'Thêm nhân viên' : 'Sửa nhân viên'}
+                </ModalHeader>
 
-                            <FormGroup row>
-                                <Label md={2} htmlFor="doB">
-                                    Ngày sinh
-                                </Label>
-                                <Col md={9}>
-                                    <Input
-                                        type={'date'}
-                                        className={`form-control`}
-                                        id="doB"
-                                        value={doB}
-                                        name="doB"
-                                        onChange={this.handleTakeData}
-                                        valid={errors.doB === ''}
-                                        invalid={errors.doB !== ''}
-                                        onBlur={this.handelBlur('doB')}
-                                    />
-                                    <FormFeedback>{errors.doB}</FormFeedback>
-                                </Col>
-                            </FormGroup>
+                <ModalBody>
+                    <Form onSubmit={this.handleSubmitForm}>
+                        <FormGroup row>
+                            <Label md={12} htmlFor="name">
+                                Tên
+                            </Label>
+                            <Col md={12}>
+                                <Input
+                                    type={'text'}
+                                    className={`form-control`}
+                                    id="name"
+                                    name="name"
+                                    value={name}
+                                    valid={errors.name === ''}
+                                    invalid={errors.name !== ''}
+                                    onChange={this.handleTakeData}
+                                    onBlur={this.handelBlur('name')}
+                                />
+                                <FormFeedback>{errors.name}</FormFeedback>
+                            </Col>
+                        </FormGroup>
 
-                            <FormGroup row>
-                                <Label md={2} htmlFor="startDate">
-                                    Ngày vào công ty
-                                </Label>
-                                <Col md={9}>
-                                    <Input
-                                        type={'date'}
-                                        className="form-control"
-                                        id="startDate"
-                                        value={startDate}
-                                        name="startDate"
-                                        onChange={this.handleTakeData}
-                                        onBlur={this.handelBlur('startDate')}
-                                        valid={errors.startDate === ''}
-                                        invalid={errors.startDate !== ''}
-                                    />
-                                    <FormFeedback>
-                                        {errors.startDate}
-                                    </FormFeedback>
-                                </Col>
-                            </FormGroup>
-                            <FormGroup row>
-                                <Label md={2} htmlFor="humanR">
-                                    Phòng ban
-                                </Label>
-                                <Col md={9}>
-                                    <Input
-                                        type="select"
-                                        className="form-control"
-                                        name="department"
-                                        onChange={this.handleTakeData}
-                                    >
-                                        {this.state.department && (
-                                            <option value={department}>
-                                                {department}
-                                            </option>
-                                        )}
-                                        <option value={'Sale'}>Sale</option>
-                                        <option value={'HR'}>HR</option>
-                                        <option value={'Marketing'}>
-                                            Marketing
+                        <FormGroup row>
+                            <Label md={12} htmlFor="doB">
+                                Ngày sinh
+                            </Label>
+                            <Col md={12}>
+                                <Input
+                                    type={'date'}
+                                    className={`form-control`}
+                                    id="doB"
+                                    value={doB}
+                                    name="doB"
+                                    onChange={this.handleTakeData}
+                                    valid={errors.doB === ''}
+                                    invalid={errors.doB !== ''}
+                                    onBlur={this.handelBlur('doB')}
+                                />
+                                <FormFeedback>{errors.doB}</FormFeedback>
+                            </Col>
+                        </FormGroup>
+
+                        <FormGroup row>
+                            <Label md={12} htmlFor="startDate">
+                                Ngày vào công ty
+                            </Label>
+                            <Col md={12}>
+                                <Input
+                                    type={'date'}
+                                    className="form-control"
+                                    id="startDate"
+                                    value={startDate}
+                                    name="startDate"
+                                    onChange={this.handleTakeData}
+                                    onBlur={this.handelBlur('startDate')}
+                                    valid={errors.startDate === ''}
+                                    invalid={errors.startDate !== ''}
+                                />
+                                <FormFeedback>{errors.startDate}</FormFeedback>
+                            </Col>
+                        </FormGroup>
+                        <FormGroup row>
+                            <Label md={12} htmlFor="humanR">
+                                Phòng ban
+                            </Label>
+                            <Col md={12}>
+                                <Input
+                                    type="select"
+                                    className="form-control"
+                                    name="department"
+                                    onChange={this.handleTakeData}
+                                >
+                                    {this.state.department && (
+                                        <option value={department}>
+                                            {department}
                                         </option>
-                                        <option value={'IT'}>IT</option>
-                                        <option value={'Finance'}>
-                                            Finance
-                                        </option>
-                                    </Input>
-                                </Col>
-                            </FormGroup>
+                                    )}
+                                    <option value={'Sale'}>Sale</option>
+                                    <option value={'HR'}>HR</option>
+                                    <option value={'Marketing'}>
+                                        Marketing
+                                    </option>
+                                    <option value={'IT'}>IT</option>
+                                    <option value={'Finance'}>Finance</option>
+                                </Input>
+                            </Col>
+                        </FormGroup>
 
-                            <FormGroup row>
-                                <Label md={2} htmlFor="salaryScale">
-                                    Hệ số lương
-                                </Label>
-                                <Col md={9}>
-                                    <Input
-                                        type={'number'}
-                                        className="form-control"
-                                        id="salaryScale"
-                                        step={'0.01'}
-                                        min={0}
-                                        max={5}
-                                        value={salaryScale}
-                                        onChange={this.handleTakeData}
-                                        name="salaryScale"
-                                    />
-                                </Col>
-                            </FormGroup>
-                            <FormGroup row>
-                                <Label md={2} htmlFor="annualLeave">
-                                    Số ngày nghỉ còn lại
-                                </Label>
-                                <Col md={9}>
-                                    <Input
-                                        type={'number'}
-                                        className="form-control"
-                                        id="annualLeave"
-                                        value={annualLeave}
-                                        onChange={this.handleTakeData}
-                                        name="annualLeave"
-                                        min={0}
-                                        max={12}
-                                        step={0.5}
-                                    />
-                                </Col>
-                            </FormGroup>
+                        <FormGroup row>
+                            <Label md={12} htmlFor="salaryScale">
+                                Hệ số lương
+                            </Label>
+                            <Col md={12}>
+                                <Input
+                                    type={'number'}
+                                    className="form-control"
+                                    id="salaryScale"
+                                    step={'0.01'}
+                                    min={0}
+                                    max={5}
+                                    value={salaryScale}
+                                    onChange={this.handleTakeData}
+                                    name="salaryScale"
+                                />
+                            </Col>
+                        </FormGroup>
+                        <FormGroup row>
+                            <Label md={12} htmlFor="annualLeave">
+                                Số ngày nghỉ còn lại
+                            </Label>
+                            <Col md={12}>
+                                <Input
+                                    type={'number'}
+                                    className="form-control"
+                                    id="annualLeave"
+                                    value={annualLeave}
+                                    onChange={this.handleTakeData}
+                                    name="annualLeave"
+                                    min={0}
+                                    max={12}
+                                    step={0.5}
+                                />
+                            </Col>
+                        </FormGroup>
 
-                            <FormGroup row>
-                                <Label md={2} htmlFor="overTime">
-                                    Số ngày đã làm thêm
-                                </Label>
-                                <Col md={9}>
-                                    <Input
-                                        type={'number'}
-                                        className="form-control"
-                                        id="overTime"
-                                        step={'0.5'}
-                                        min={0}
-                                        max={20}
-                                        value={overTime}
-                                        onChange={this.handleTakeData}
-                                        name="overTime"
-                                    />
-                                </Col>
-                            </FormGroup>
-
-                            <FormGroup row>
-                                <Col md={{ size: 10, offset: 2 }}>
-                                    <Button
-                                        type="sumbmit"
-                                        color={!IdStaff ? 'primary' : 'danger'}
-                                    >
-                                        {!IdStaff ? 'Add' : 'Update'}
-                                    </Button>
-                                </Col>
-                            </FormGroup>
-                        </Form>
-                    </div>
-                </div>
-            </div>
+                        <FormGroup row>
+                            <Label md={12} htmlFor="overTime">
+                                Số ngày đã làm thêm
+                            </Label>
+                            <Col md={12}>
+                                <Input
+                                    type={'number'}
+                                    className="form-control"
+                                    id="overTime"
+                                    step={'0.5'}
+                                    min={0}
+                                    max={20}
+                                    value={overTime}
+                                    onChange={this.handleTakeData}
+                                    name="overTime"
+                                />
+                            </Col>
+                        </FormGroup>
+                        <ModalFooter>
+                            <Button
+                                type="submit"
+                                color={!IdStaff ? 'primary' : 'danger'}
+                            >
+                                {!IdStaff ? 'Add' : 'Update'}
+                            </Button>
+                        </ModalFooter>
+                    </Form>
+                </ModalBody>
+            </Modal>
         );
     }
 }

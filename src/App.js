@@ -18,12 +18,14 @@ import NotFoundRoute from './Component/NotFoundRoute';
 import SaralyComp from './Component/SaralyComp';
 import StaffList from './Component/StaffListComponent';
 import DepartmentDetail from './Component/DepartmentDetail';
+import Test from './Component/Test';
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             showForm: false,
+            toggleModal: false,
         };
     }
 
@@ -35,16 +37,17 @@ class App extends Component {
         this.props.editStaff(staff);
     };
 
-    // toggleModal
-    closeModal = () => {
-        this.setState({ showForm: false });
-    };
-
     componentDidMount() {
         this.props.fetchStaff();
         this.props.fetchDepartment();
         this.props.fetchSalary();
     }
+
+    handleToggleModal = () => {
+        this.setState({
+            toggleModal: !this.state.toggleModal,
+        });
+    };
     render() {
         const { isLoading, staffs } = this.props.stafffs;
 
@@ -62,8 +65,10 @@ class App extends Component {
                                         staffs={staffs}
                                         isLoading={isLoading}
                                         addStaff={this.addStaff}
-                                        showForm={this.state.showForm}
-                                        closeModal={this.closeModal}
+                                        handleToggleModal={
+                                            this.handleToggleModal
+                                        }
+                                        toggleModal={this.state.toggleModal}
                                     />
                                 )}
                             />
@@ -74,9 +79,11 @@ class App extends Component {
                                     <DetailStaff
                                         isLoading={isLoading}
                                         staffs={staffs}
-                                        showForm={this.state.showForm}
-                                        closeModal={this.closeModal}
                                         editStaff={this.editStaff}
+                                        handleToggleModal={
+                                            this.handleToggleModal
+                                        }
+                                        toggleModal={this.state.toggleModal}
                                     />
                                 )}
                             />
@@ -99,6 +106,11 @@ class App extends Component {
                                 component={() => (
                                     <SaralyComp salary={this.props.salary} />
                                 )}
+                            />
+                            <Route
+                                exact
+                                path={'/test'}
+                                component={() => <Test />}
                             />
 
                             <Route path={'*'} component={NotFoundRoute} />

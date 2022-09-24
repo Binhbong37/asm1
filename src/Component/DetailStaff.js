@@ -166,6 +166,7 @@ class DetailStaff extends Component {
     }
 
     render() {
+        console.log(this.state.staff);
         const { isLoading } = this.props;
         if (isLoading) {
             return (
@@ -179,7 +180,7 @@ class DetailStaff extends Component {
                 <Fragment>{this.takeStaff(this.props)}</Fragment>
                 {this.state.formEdit && (
                     <FormAddStaff
-                        closeModal={this.props.closeModal}
+                        showFormAdd={this.props.handleToggleModal}
                         staff={this.state.staff}
                         editStaff={this.props.editStaff}
                     />

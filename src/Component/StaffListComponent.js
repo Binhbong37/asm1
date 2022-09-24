@@ -32,6 +32,10 @@ class StaffList extends Component {
         this.setState({ searchStaff: textSearch });
     };
 
+    handleShowFormAdd = () => {
+        this.props.handleToggleModal();
+    };
+
     // add staff
     addStaff = (staff) => {
         const id = Date.now().toString(36);
@@ -112,7 +116,7 @@ class StaffList extends Component {
                         <h3>Nhân viên</h3>
                         <div
                             className="icon_add"
-                            onClick={() => this.setState({ showFormAdd: true })}
+                            onClick={this.handleShowFormAdd}
                         >
                             <i className="fa fa-plus" aria-hidden="true"></i>
                         </div>
@@ -140,11 +144,10 @@ class StaffList extends Component {
                             Bấm vào từng nhân viên để xem thông tin chi tiết
                         </p>
                     )}
-                    {this.state.showFormAdd && (
+                    {this.props.toggleModal && (
                         <FormAddStaff
                             staff={this.addStaff}
-                            closeModal={this.props.closeModal}
-                            resetFormAddStaff={this.props.resetFormAddStaff}
+                            showFormAdd={this.handleShowFormAdd}
                         />
                     )}
                 </div>
