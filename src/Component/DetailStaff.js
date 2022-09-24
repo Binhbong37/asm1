@@ -180,7 +180,7 @@ class DetailStaff extends Component {
                 <Fragment>{this.takeStaff(this.props)}</Fragment>
                 {this.state.formEdit && (
                     <FormAddStaff
-                        showFormAdd={this.props.handleToggleModal}
+                        showFormAdd={() => this.props.handleToggleModal(false)}
                         staff={this.state.staff}
                         editStaff={this.props.editStaff}
                     />

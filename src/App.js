@@ -43,9 +43,9 @@ class App extends Component {
         this.props.fetchSalary();
     }
 
-    handleToggleModal = () => {
+    handleToggleModal = (boolen) => {
         this.setState({
-            toggleModal: !this.state.toggleModal,
+            toggleModal: boolen,
         });
     };
     render() {

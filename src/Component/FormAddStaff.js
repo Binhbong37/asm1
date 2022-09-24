@@ -26,13 +26,14 @@ class FormAddStaff extends Component {
             annualLeave: this.props.staff.annualLeave || 1,
             overTime: this.props.staff.overTime || 1,
             image: '/assets/images/alberto.png',
-            salaryScale: this.props.staff.salaryScale || 1,
+            salaryScale: this.props.staff.salaryScale || '',
             IdStaff: this.props.staff.id || false,
             valid: false,
             touched: {
                 name: false,
                 doB: false,
                 startDate: false,
+                salaryScale: false,
             },
         };
         this.handelBlur = this.handelBlur.bind(this);
@@ -67,7 +68,7 @@ class FormAddStaff extends Component {
             salaryScale,
             image,
         } = this.state;
-        if (!name || !doB || !startDate) {
+        if (!name || !doB || !startDate || !salaryScale) {
             this.setState({ valid: true });
             return;
         }
@@ -105,11 +106,12 @@ class FormAddStaff extends Component {
         });
     };
 
-    validate(name, doB, startDate) {
+    validate(name, doB, startDate, salaryScale) {
         const errors = {
             name: '',
             doB: '',
             startDate: '',
+            salaryScale: '',
         };
 
         if (this.state.touched.name && name.length < 3)
@@ -123,7 +125,8 @@ class FormAddStaff extends Component {
             errors.startDate = 'StartDate is requried';
         else if (this.state.valid && !startDate)
             errors.startDate = 'Startdate is requried!';
-
+        if (this.state.valid && !salaryScale)
+            errors.salaryScale = 'Salary scale is required!!';
         return errors;
     }
 
@@ -215,6 +218,7 @@ class FormAddStaff extends Component {
                                     type="select"
                                     className="form-control"
                                     name="department"
+                                    id="humanR"
                                     onChange={this.handleTakeData}
                                 >
                                     {this.state.department && (
@@ -242,13 +246,17 @@ class FormAddStaff extends Component {
                                     type={'number'}
                                     className="form-control"
                                     id="salaryScale"
-                                    step={'0.01'}
-                                    min={0}
-                                    max={5}
+                                    placeholder="nhap so dang 1.1"
                                     value={salaryScale}
                                     onChange={this.handleTakeData}
                                     name="salaryScale"
+                                    onBlur={this.handelBlur('salaryScale')}
+                                    valid={errors.salaryScale === ''}
+                                    invalid={errors.salaryScale !== ''}
                                 />
+                                <FormFeedback>
+                                    {errors.salaryScale}
+                                </FormFeedback>
                             </Col>
                         </FormGroup>
                         <FormGroup row>

@@ -33,7 +33,10 @@ class StaffList extends Component {
     };
 
     handleShowFormAdd = () => {
-        this.props.handleToggleModal();
+        this.setState({
+            showFormAdd: !this.state.showFormAdd,
+        });
+        // this.props.handleToggleModal();
     };
 
     // add staff
@@ -46,7 +49,7 @@ class StaffList extends Component {
             salaryScale: Number(staff.salaryScale),
             startDate: staff.startDate,
             department: staff.department,
-            annualLeave: Number(staff.annuaLeave),
+            annualLeave: Number(staff.annualLeave),
             overTime: Number(staff.overTime),
             image: '/assets/images/alberto.png',
         };
@@ -144,7 +147,7 @@ class StaffList extends Component {
                             Bấm vào từng nhân viên để xem thông tin chi tiết
                         </p>
                     )}
-                    {this.props.toggleModal && (
+                    {this.state.showFormAdd && (
                         <FormAddStaff
                             staff={this.addStaff}
                             showFormAdd={this.handleShowFormAdd}
